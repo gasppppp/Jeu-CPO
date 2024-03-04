@@ -8,6 +8,7 @@ export default class niveau1 extends Phaser.Scene {
     });
   }
   preload() {
+    this.load.image("img_grotte", "src/assets/assets_map1/fond_grotte.png");
     
   }
 
@@ -15,7 +16,7 @@ export default class niveau1 extends Phaser.Scene {
     fct.doNothing();
     fct.doAlsoNothing();
 
-    this.add.image(400, 300, "img_ciel");
+    this.add.image(400, 300, "img_grotte");
     this.groupe_plateformes = this.physics.add.staticGroup();
     this.groupe_plateformes.create(200, 584, "img_plateforme");
     this.groupe_plateformes.create(600, 584, "img_plateforme");

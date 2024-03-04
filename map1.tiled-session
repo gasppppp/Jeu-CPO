@@ -1,4 +1,8 @@
 {
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
     "activeFile": "map1.tmx",
     "expandedProjectPaths": [
     ],
@@ -16,9 +20,16 @@
             "dynamicWrapping": true,
             "scaleInDock": 1,
             "scaleInEditor": 1
+        },
+        "map1.tmx#map1": {
+            "dynamicWrapping": false
+        },
+        "map1.tmx#tileset_grotte": {
+            "dynamicWrapping": false,
+            "scaleInEditor": 1
         }
     },
-    "last.imagePath": "C:/Users/Gaspard Rouault/Documents/Professionnel/EPF/CPO/Jeu CPO/assets/assets map1",
+    "last.imagePath": "C:/Users/Gaspard Rouault/Documents/Professionnel/EPF/CPO/Jeu CPO/src/assets/assets_map1",
     "map.lastUsedFormat": "tmx",
     "openFiles": [
         "map1.tmx"
