@@ -146,15 +146,15 @@ export default class selection extends Phaser.Scene {
     bienvenueTexte = this.add.text(
       this.cameras.main.width / 2,
       50,
-      "Bienvenue dans l'Epopée de Bérénice !",
+      "Bienvenue dans l'Epopée de Bérénice!",
       {
-          font: "bold 36px Arial",  // Ajustez la police et la taille selon vos préférences
-          fill: "#ffffff",          // Couleur du texte
-          stroke: "#ffA500",        // Couleur des contours (orange)
-          strokeThickness: 6        // Épaisseur des contours
+          font: "bold 36px Arial",
+          fill: "#ffffff",
+          stroke: "#ffA500",
+          strokeThickness: 6
       }
   );
-  bienvenueTexte.setOrigin(0.5, 0);  // Définir l'origine du texte au centre
+  bienvenueTexte.setOrigin(0.5, 0);
 
   // Ajout du bouton "Règles du jeu"
 var reglesBouton = this.add.text(
@@ -169,17 +169,67 @@ var reglesBouton = this.add.text(
   }
 );
 reglesBouton.setOrigin(0.5, 0);
-reglesBouton.setInteractive();  // Activer l'interaction pour détecter les clics
+reglesBouton.setInteractive();
 
 // Ajouter un événement de clic au bouton
 reglesBouton.on('pointerdown', function () {
-  // Ajoutez ici le code pour afficher les règles du jeu, par exemple une nouvelle scène, une fenêtre modale, etc.
-  console.log("Clic sur le bouton Règles du jeu");
+  reglesBouton.setVisible(false);  // Cacher le texte "Règles du jeu" sur l'écran d'accueil
+  this.scene.launch('reglesScene'); // 'reglesScene' est le nom de la nouvelle scène
+}, this);
+
+// Ajouter un événement de survol au bouton "Règles du jeu"
+reglesBouton.on('pointerover', function () {
+  reglesBouton.setScale(1.2);  // Grossir le texte lors du survol
 });
-  }
-  /***********************************************************************/
-  /** FONCTION UPDATE 
-/***********************************************************************/
+
+// Ajouter un événement de survol au bouton "Règles du jeu"
+reglesBouton.on('pointerout', function () {
+  reglesBouton.setScale(1);  // Rétablir la taille normale lorsque la souris quitte
+});
+
+// Dans la scène des règles (`reglesScene`), ajoutez une variable pour stocker la référence au bouton "Règles du jeu"
+var reglesBoutonAccueil;
+
+reglesScene.create = function () {
+    // ...
+
+    // Ajout du bouton "Règles du jeu" (sur la scène des règles)
+    reglesBoutonAccueil = this.add.text(
+        this.cameras.main.width / 2,
+        100,
+        "Règles du jeu",
+        {
+            font: "bold 24px Arial",
+            fill: "#ffffff",
+            stroke: "#ffA500",
+            strokeThickness: 4
+        }
+    );
+    reglesBoutonAccueil.setOrigin(0.5, 0);
+    reglesBoutonAccueil.setInteractive();
+
+    // Ajouter un événement de clic au bouton sur la scène des règles (pour revenir à l'écran d'accueil)
+    reglesBoutonAccueil.on('pointerdown', function () {
+        reglesBoutonAccueil.setVisible(false);  // Cacher le texte "Règles du jeu" sur la scène des règles
+        this.scene.stop('reglesScene');  // Ferme la scène des règles
+        reglesBouton.setVisible(true);  // Afficher à nouveau le texte "Règles du jeu" sur l'écran d'accueil
+    }, this);
+};
+
+  // Ajouter un événement de clic au bouton "Règles du jeu" sur la scène des règles
+  reglesBoutonAccueil.on('pointerdown', function () {
+    reglesBouton.setVisible(true);  // Afficher à nouveau le texte "Règles du jeu" sur l'écran d'accueil
+    this.scene.stop('reglesScene');  // Ferme la scène des règles
+  }, this);
+};
+
+
+
+
+
+
+
+
 
   update() {
     
