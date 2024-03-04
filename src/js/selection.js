@@ -7,6 +7,7 @@ import * as fct from "/src/js/fonctions.js";
 var player; // désigne le sprite du joueur
 var clavier; // pour la gestion du clavier
 var groupe_plateformes;
+var bienvenueTexte;
 
 // définition de la classe "selection"
 export default class selection extends Phaser.Scene {
@@ -24,10 +25,10 @@ export default class selection extends Phaser.Scene {
    */
   preload() {
     // tous les assets du jeu sont placés dans le sous-répertoire src/assets/
-    this.load.image("img_ciel", "src/assets/assets_bienvenue/sky.png");
+    this.load.image("img_paysage", "src/assets/assets_bienvenue/image_ecran_bienvenue.png");
     
     this.load.image("img_plateforme", "src/assets/assets_bienvenue/platform.png");
-    this.load.spritesheet("img_perso", "src/assets/assets_bienvenue/dude.png", {
+    this.load.spritesheet("img_perso", "src/assets/dude.png", {
       frameWidth: 32,
       frameHeight: 48
     });
@@ -56,7 +57,7 @@ export default class selection extends Phaser.Scene {
 
     // On ajoute une simple image de fond, le ciel, au centre de la zone affichée (400, 300)
     // Par défaut le point d'ancrage d'une image est le centre de cette derniere
-    this.add.image(400, 300, "img_ciel");
+    this.add.image(400, 300, "img_paysage");
 
     // la création d'un groupes permet de gérer simultanément les éléments d'une meme famille
     //  Le groupe groupe_plateformes contiendra le sol et deux platesformes sur lesquelles sauter
@@ -141,6 +142,17 @@ export default class selection extends Phaser.Scene {
 
     //  Collide the player and the groupe_etoiles with the groupe_plateformes
     this.physics.add.collider(player, groupe_plateformes);
+
+    bienvenueTexte = this.add.text(
+      this.cameras.main.width / 2,
+      50,
+      "Bienvenue dans l'Epopée de Bérénice !",
+      {
+          font: "32px Arial",
+          fill: "#ffffff"
+      }
+  );
+  bienvenueTexte.setOrigin(0.5, 0); // Définir l'origine du texte au centre
   }
 
   /***********************************************************************/
