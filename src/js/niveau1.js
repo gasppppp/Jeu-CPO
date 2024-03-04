@@ -10,7 +10,14 @@ export default class niveau1 extends Phaser.Scene {
   preload() {
     this.load.image("img_grotte", "src/assets/assets_map1/fond_grotte.png");
     
+// chargement tuiles de jeu
+//this.load.image("Phaser_tuilesdejeu", "src/assets/tuilesJeu.png");
+// chargement de la carte
+//this.load.tilemapTiledJSON("carte", "src/assets/map.tmj");
+
   }
+
+
 
   create() {
     fct.doNothing();

@@ -29,7 +29,7 @@ export default class selection extends Phaser.Scene {
     
     this.load.image("img_plateforme", "src/assets/assets_bienvenue/platform.png");
     this.load.spritesheet("img_perso", "src/assets/dude.png", {
-      frameWidth: 32,
+      frameWidth: 48,
       frameHeight: 48
     });
     this.load.image("img_porte1", "src/assets/assets_bienvenue/door1.png");
@@ -37,16 +37,7 @@ export default class selection extends Phaser.Scene {
     this.load.image("img_porte3", "src/assets/assets_bienvenue/door3.png");
   }
 
-  /***********************************************************************/
-  /** FONCTION CREATE 
-/***********************************************************************/
-
-  /* La fonction create est appelée lors du lancement de la scene
-   * si on relance la scene, elle sera appelée a nouveau
-   * on y trouve toutes les instructions permettant de créer la scene
-   * placement des peronnages, des sprites, des platesformes, création des animations
-   * ainsi que toutes les instructions permettant de planifier des evenements
-   */
+  
   create() {
       fct.doNothing();
       fct.doAlsoNothing();
@@ -82,16 +73,16 @@ export default class selection extends Phaser.Scene {
      ****************************/
     this.porte1 = this.physics.add.staticSprite(600, 414, "img_porte1");
     this.porte2 = this.physics.add.staticSprite(50, 264, "img_porte2");
-    this.porte3 = this.physics.add.staticSprite(750, 234, "img_porte3");
+    this.porte3 = this.physics.add.staticSprite(775, 234, "img_porte3");
 
     /****************************
      *  CREATION DU PERSONNAGE  *
      ****************************/
 
-    // On créée un nouveeau personnage : player
+    // On créée un nouveau personnage : player
     player = this.physics.add.sprite(100, 450, "img_perso");
 
-    //  propriétées physiqyes de l'objet player :
+    //  propriétés physiques de l'objet player :
     player.setBounce(0.2); // on donne un petit coefficient de rebond
     player.setCollideWorldBounds(true); // le player se cognera contre les bords du monde
 
@@ -105,9 +96,9 @@ export default class selection extends Phaser.Scene {
     this.anims.create({
       key: "anim_tourne_gauche", // key est le nom de l'animation : doit etre unique poru la scene.
       frames: this.anims.generateFrameNumbers("img_perso", {
-        start: 0,
-        end: 3
-      }), // on prend toutes les frames de img perso numerotées de 0 à 3
+        start: 3,
+        end: 5
+      }), // on prend toutes les frames de img perso numerotées de 3 à 5
       frameRate: 10, // vitesse de défilement des frames
       repeat: -1 // nombre de répétitions de l'animation. -1 = infini
     });
@@ -115,7 +106,7 @@ export default class selection extends Phaser.Scene {
     // creation de l'animation "anim_tourne_face" qui sera jouée sur le player lorsque ce dernier n'avance pas.
     this.anims.create({
       key: "anim_face",
-      frames: [{ key: "img_perso", frame: 4 }],
+      frames: [{ key: "img_perso", frame: 1 }],
       frameRate: 20
     });
 
@@ -123,7 +114,7 @@ export default class selection extends Phaser.Scene {
     this.anims.create({
       key: "anim_tourne_droite",
       frames: this.anims.generateFrameNumbers("img_perso", {
-        start: 5,
+        start: 6,
         end: 8
       }),
       frameRate: 10,
@@ -143,10 +134,13 @@ export default class selection extends Phaser.Scene {
     //  Collide the player and the groupe_etoiles with the groupe_plateformes
     this.physics.add.collider(player, groupe_plateformes);
 
+
+
+    // Ajout du texte de bienvenue personnalisé
     bienvenueTexte = this.add.text(
       this.cameras.main.width / 2,
       50,
-      "Bienvenue dans l'Epopée de Bérénice!",
+      "Bienvenue dans l'Epopée de Bérénice !",
       {
           font: "bold 36px Arial",
           fill: "#ffffff",
@@ -168,14 +162,8 @@ var reglesBouton = this.add.text(
       strokeThickness: 4
   }
 );
-reglesBouton.setOrigin(0.5, 0);
+reglesBouton.setOrigin(0.5, -0.8);
 reglesBouton.setInteractive();
-
-// Ajouter un événement de clic au bouton
-reglesBouton.on('pointerdown', function () {
-  reglesBouton.setVisible(false);  // Cacher le texte "Règles du jeu" sur l'écran d'accueil
-  this.scene.launch('reglesScene'); // 'reglesScene' est le nom de la nouvelle scène
-}, this);
 
 // Ajouter un événement de survol au bouton "Règles du jeu"
 reglesBouton.on('pointerover', function () {
@@ -187,40 +175,78 @@ reglesBouton.on('pointerout', function () {
   reglesBouton.setScale(1);  // Rétablir la taille normale lorsque la souris quitte
 });
 
-// Dans la scène des règles (`reglesScene`), ajoutez une variable pour stocker la référence au bouton "Règles du jeu"
-var reglesBoutonAccueil;
+// Ajouter un événement de clic au bouton
+reglesBouton.on('pointerdown', function () {
+  this.scene.launch('reglesScene'); // 'reglesScene' est le nom de la nouvelle scène
+}, this);
+
+  // Créez une nouvelle scène pour les règles du jeu
+var reglesScene = new Phaser.Scene('reglesScene');
 
 reglesScene.create = function () {
-    // ...
+    // Ajoutez ici le code pour afficher les règles du jeu dans la nouvelle scène
 
-    // Ajout du bouton "Règles du jeu" (sur la scène des règles)
-    reglesBoutonAccueil = this.add.text(
+    // Fond bleu foncé
+    var fond = this.add.rectangle(
         this.cameras.main.width / 2,
-        100,
-        "Règles du jeu",
+        this.cameras.main.height / 2,
+        this.cameras.main.width,
+        this.cameras.main.height,
+        0x000033
+    );
+    fond.setOrigin(0.5);
+
+    // Texte des règles
+    var reglesTexte = this.add.text(
+        this.cameras.main.width / 2,
+        this.cameras.main.height / 2 - 50,
+        "Règles du jeu\n\nVous êtes Bérénice, une petite fille née hier.\nVous avez perdu vos parents, dommage pour vous !\nIl vous faut donc traverser les trois niveaux pour\nespérer les revoir. Attention, des monstres sont là\npour vous bouffer donc équipez-vous d'une\narme dès que vous le pouvez !",
         {
             font: "bold 24px Arial",
             fill: "#ffffff",
-            stroke: "#ffA500",
-            strokeThickness: 4
+            stroke: "null",
+            align: 'center'
         }
     );
-    reglesBoutonAccueil.setOrigin(0.5, 0);
-    reglesBoutonAccueil.setInteractive();
+    reglesTexte.setOrigin(0.5);
 
-    // Ajouter un événement de clic au bouton sur la scène des règles (pour revenir à l'écran d'accueil)
-    reglesBoutonAccueil.on('pointerdown', function () {
-        reglesBoutonAccueil.setVisible(false);  // Cacher le texte "Règles du jeu" sur la scène des règles
-        this.scene.stop('reglesScene');  // Ferme la scène des règles
-        reglesBouton.setVisible(true);  // Afficher à nouveau le texte "Règles du jeu" sur l'écran d'accueil
-    }, this);
-};
 
-  // Ajouter un événement de clic au bouton "Règles du jeu" sur la scène des règles
-  reglesBoutonAccueil.on('pointerdown', function () {
-    reglesBouton.setVisible(true);  // Afficher à nouveau le texte "Règles du jeu" sur l'écran d'accueil
-    this.scene.stop('reglesScene');  // Ferme la scène des règles
-  }, this);
+// Ajouter un bouton "Fermer" pour revenir à la scène principale
+var fermerBouton = this.add.text(
+  this.cameras.main.width / 2,
+  this.cameras.main.height - 50,
+  "Fermer",
+  {
+      font: "bold 20px Arial",
+      fill: "#ffffff",
+      stroke: "#ffA500",
+      strokeThickness: 3
+  }
+);
+fermerBouton.setOrigin(0.5);
+fermerBouton.setInteractive();
+
+
+    // Ajouter un événement de survol au bouton "Fermer"
+fermerBouton.on('pointerover', function () {
+  fermerBouton.setScale(1.2);  // Grossir le texte lors du survol
+});
+
+// Ajouter un événement de survol au bouton "Fermer"
+fermerBouton.on('pointerout', function () {
+  fermerBouton.setScale(1);  // Rétablir la taille normale lorsque la souris quitte
+});
+
+// Ajouter un événement de clic au bouton "Fermer"
+fermerBouton.on('pointerdown', function () {
+  this.scene.stop('reglesScene');  // Ferme la scène des règles
+}, this);  
+}
+
+// Ajoutez la nouvelle scène au gestionnaire de scènes de Phaser
+this.scene.add('reglesScene', reglesScene);
+
+  
 };
 
 
@@ -243,7 +269,6 @@ reglesScene.create = function () {
       player.setVelocityX(0);
       player.anims.play("anim_face");
     }
-
     if (clavier.up.isDown && player.body.touching.down) {
       player.setVelocityY(-330);
     }
