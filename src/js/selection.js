@@ -177,4 +177,3 @@ export default class selection extends Phaser.Scene {
 /***********************************************************************/
 /** CONFIGURATION GLOBALE DU JEU ET LANCEMENT 
 /***********************************************************************/
-1234
