@@ -24,15 +24,15 @@ export default class selection extends Phaser.Scene {
    */
   preload() {
     // tous les assets du jeu sont placés dans le sous-répertoire src/assets/
-    this.load.image("img_ciel", "src/assets/sky.png");
-    this.load.image("img_plateforme", "src/assets/platform.png");
-    this.load.spritesheet("img_perso", "src/assets/dude.png", {
+    this.load.image("img_ciel", "src/assets/assets_bienvenue/sky.png");
+    this.load.image("img_plateforme", "src/assets/assets_bienvenue/platform.png");
+    this.load.spritesheet("img_perso", "src/assets/assets_bienvenue/dude.png", {
       frameWidth: 32,
       frameHeight: 48
     });
-    this.load.image("img_porte1", "src/assets/door1.png");
-    this.load.image("img_porte2", "src/assets/door2.png");
-    this.load.image("img_porte3", "src/assets/door3.png");
+    this.load.image("img_porte1", "src/assets/assets_bienvenue/door1.png");
+    this.load.image("img_porte2", "src/assets/assets_bienvenue/door2.png");
+    this.load.image("img_porte3", "src/assets/assets_bienvenue/door3.png");
   }
 
   /***********************************************************************/
