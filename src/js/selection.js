@@ -148,13 +148,35 @@ export default class selection extends Phaser.Scene {
       50,
       "Bienvenue dans l'Epopée de Bérénice !",
       {
-          font: "32px Arial",
-          fill: "#ffffff"
+          font: "bold 36px Arial",  // Ajustez la police et la taille selon vos préférences
+          fill: "#ffffff",          // Couleur du texte
+          stroke: "#ffA500",        // Couleur des contours (orange)
+          strokeThickness: 6        // Épaisseur des contours
       }
   );
-  bienvenueTexte.setOrigin(0.5, 0); // Définir l'origine du texte au centre
-  }
+  bienvenueTexte.setOrigin(0.5, 0);  // Définir l'origine du texte au centre
 
+  // Ajout du bouton "Règles du jeu"
+var reglesBouton = this.add.text(
+  this.cameras.main.width / 2,
+  100,
+  "Règles du jeu",
+  {
+      font: "bold 24px Arial",
+      fill: "#ffffff",
+      stroke: "#ffA500",
+      strokeThickness: 4
+  }
+);
+reglesBouton.setOrigin(0.5, 0);
+reglesBouton.setInteractive();  // Activer l'interaction pour détecter les clics
+
+// Ajouter un événement de clic au bouton
+reglesBouton.on('pointerdown', function () {
+  // Ajoutez ici le code pour afficher les règles du jeu, par exemple une nouvelle scène, une fenêtre modale, etc.
+  console.log("Clic sur le bouton Règles du jeu");
+});
+  }
   /***********************************************************************/
   /** FONCTION UPDATE 
 /***********************************************************************/
