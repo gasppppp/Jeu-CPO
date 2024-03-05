@@ -6,6 +6,7 @@ var arme;
 var enemyMove;
 var crabe;
 var calque_plateformes;
+var pistolets;
 
 export default class niveau1 extends Phaser.Scene {
 
@@ -24,6 +25,8 @@ export default class niveau1 extends Phaser.Scene {
       frameWidth: 48,
       frameHeight: 48
     });
+    this.load.image("img_pistolet", "src/assets/Armes/sprite_pistolet.png");
+    this.load.image("img_bullet", "src/assets/Armes/balle_pistolet.png");
   }
 
 
@@ -147,6 +150,16 @@ export default class niveau1 extends Phaser.Scene {
     e2.anims.play("enemyMoves", true);
     e3.anims.play("enemyMoves", true);
     e4.anims.play("enemyMoves", true);
+
+    // Création d'un groupe pour les pistolets
+    pistolets = this.physics.add.group();
+
+    // Ajout de trois pistolets à des positions spécifiques sur la carte
+    this.placerPistolet(295, 200);
+    this.placerPistolet(820, 400);
+    this.placerPistolet(3072, 224);
+
+    this.physics.add.collider(pistolets, calque_plateformes);
   }
 
 
@@ -168,6 +181,25 @@ export default class niveau1 extends Phaser.Scene {
       player.setVelocityY(-330);
     }
   }
+
+  placerPistolet(x, y) {
+    const pistolet = pistolets.create(x, y, 'img_pistolet');
+    pistolet.setCollideWorldBounds(true);
+    this.physics.add.overlap(player, pistolet, this.recupererPistolet, null, this);
+}
+
+recupererPistolet(player, pistolet) {
+  // Ajoutez ici le code pour gérer la récupération du pistolet
+  pistolet.disableBody(true, true);
+
+  // Mettez à jour l'image du joueur pour montrer qu'il porte l'arme
+  player.setTexture('img_perso_avec_pistolet');
+
+  // Ajoutez une propriété au joueur pour indiquer qu'il a l'arme
+  player.aLePistolet = true;
+}
+
+
 }
 
 /**tirer(player, arme) {
