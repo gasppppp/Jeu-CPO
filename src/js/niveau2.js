@@ -3,7 +3,7 @@ var player;
 var boutonFeu;
 var arme;
 var enemymove;
-var cible;
+var lezard;
 
 export default class niveau2 extends Phaser.Scene {
   // constructeur de la classe
@@ -17,7 +17,7 @@ export default class niveau2 extends Phaser.Scene {
     this.load.tilemapTiledJSON("map2", "src/assets/assets_map2/map2.tmj");
 
     //enemy
-    this.load.spritesheet("cible", "src/assets/assets_map2/sprite_lezard.png", {
+    this.load.spritesheet("lezard", "src/assets/assets_map2/sprite_lezard.png", {
       frameWidth: 32,
       frameHeight: 64
     });
@@ -90,25 +90,25 @@ export default class niveau2 extends Phaser.Scene {
     // ancrage de la caméra sur le joueur
     this.cameras.main.startFollow(player);
 
-    cible = this.physics.add.group();
-    var e1 = cible.create(448, 300, "cible");
-    var e2 = cible.create(864, 25, "cible");
-    var e3 = cible.create(1056, 500, "cible");
-    var e4 = cible.create(1376, 500, "cible");
-    var e5 = cible.create(1312, 40, "cible");
-    var e6 = cible.create(1888, 160, "cible");
-    var e7 = cible.create(3040, 128, "cible");
-    var e8 = cible.create(2368, 500, "cible");
+    lezard = this.physics.add.group();
+    var e1 = lezard.create(448, 300, "lezard");
+    var e2 = lezard.create(864, 25, "lezard");
+    var e3 = lezard.create(1056, 500, "lezard");
+    var e4 = lezard.create(1376, 500, "lezard");
+    var e5 = lezard.create(1312, 40, "lezard");
+    var e6 = lezard.create(1888, 160, "lezard");
+    var e7 = lezard.create(3040, 128, "lezard");
+    var e8 = lezard.create(2368, 500, "lezard");
 
-    //this.physics.add.collider(cible, player);
-    this.physics.add.collider(cible, calque_plateformes);
+    //this.physics.add.collider(lezard, player);
+    this.physics.add.collider(lezard, calque_plateformes);
     
     
 
     //enemy animation
      this.anims.create({
       key: "enemyMoves",
-      frames: this.anims.generateFrameNumbers("cible", {
+      frames: this.anims.generateFrameNumbers("lezard", {
         start: 0,
         end: 3
       }),
@@ -117,7 +117,7 @@ export default class niveau2 extends Phaser.Scene {
     });
 
     enemymove = this.tweens.add({
-      targets: cible.getChildren(),
+      targets: lezard.getChildren(),
       ease: "Linear",
       duration: 3000,
       yoyo: true,
