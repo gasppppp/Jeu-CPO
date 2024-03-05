@@ -77,7 +77,7 @@ export default class selection extends Phaser.Scene {
 
 
     player = this.physics.add.sprite(100, 450, "img_perso");
-    //player.direction = 'right';  
+    player.direction = 'right';  
     player.setBounce(0.2); // on donne un petit coefficient de rebond
     player.setCollideWorldBounds(true); // le player se cognera contre les bords du monde
 

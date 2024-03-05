@@ -13,21 +13,19 @@ export default class niveau1 extends Phaser.Scene {
   }
 
 
-
-  // création et lancement du jeu
-  //new Phaser.Game(4);
-
-
   preload() {
     this.load.image("tuiles_de_jeu", "src/assets/assets_map1/tileset_grotte.png");
     this.load.tilemapTiledJSON("map1", "src/assets/assets_map1/map1.tmj");
+    this.load.image("img_crabe", "src/assets/assets_map1/sprite_crabe.png");
+    this.load.image("img_gorille", "src/assets/assets_map1/sprite_gorille.png");
+    this.load.image("img_lezard", "src/assets/assets_map1/sprite_lezard.png");
   }
 
 
 
   create() {
     clavier = this.input.keyboard.createCursorKeys();
-    //boutonFeu = this.input.keyboard.addKey('A');
+    boutonFeu = this.input.keyboard.addKey('A');
     this.anims.create({
       key: "anim_tourne_gauche", // key est le nom de l'animation : doit etre unique poru la scene.
       frames: this.anims.generateFrameNumbers("img_perso", { start: 3, end: 5 }), // on prend toutes les frames de img perso numerotées de 0 à 3
@@ -86,6 +84,12 @@ export default class niveau1 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 3200, 800);
     // ancrage de la caméra sur le joueur
     this.cameras.main.startFollow(player);
+    // Exemple : placer un monstre à la position (300, 200) avec la feuille de sprites "monstre_sprite"
+    const monstre1 = this.createMonstre(300, 200, 'img_crabe');
+    // Exemple : placer un autre monstre à la position (500, 300) avec une autre feuille de sprites "autre_monstre_sprite"
+    const monstre2 = this.createMonstre(500, 300, 'img_gorille');
+    // Exemple : placer un autre monstre à la position (500, 300) avec une autre feuille de sprites "autre_monstre_sprite"
+    const monstre3 = this.createMonstre(500, 300, 'img_lezard');
   }
 
   update() {
@@ -102,7 +106,7 @@ export default class niveau1 extends Phaser.Scene {
     if (clavier.up.isDown && player.body.blocked.down) {
       player.setVelocityY(-330);
     }
-    /**if (cursors.left.isDown) {
+    if (cursors.left.isDown) {
       // enregistrement de la direction : gauche
       player.direction = 'left';
       player.setVelocityX(-160);
@@ -113,14 +117,20 @@ export default class niveau1 extends Phaser.Scene {
       player.direction = 'right';
       player.setVelocityX(160);
       player.anims.play('right', true);
-    }*/
+    }
   }
 
-  /**tirer(player, arme) {
+  tirer(player, arme) {
     alert("joueur en position" + player.x + "," + player.y + ", direction du tir: "
       + player.direction);
-  }*/
+  }
+
+  creerMonstre(x, y, spriteKey) {
+    const monstre = this.physics.add.sprite(x, y, spriteKey);
+    monstre.setCollideWorldBounds(true);
+    this.physics.add.collider(monstre, calque_plateformes);
+    return monstre;
+  } 
 
 
 }
-
