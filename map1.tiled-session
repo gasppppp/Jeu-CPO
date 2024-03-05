@@ -46,7 +46,7 @@
             "scale": 0.75,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 331.33333333333326,
+                "x": 499.33333333333326,
                 "y": 408.6666666666667
             }
         },
@@ -85,7 +85,7 @@
             "scale": 0.75,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 339.33333333333326,
+                "x": 1200.6666666666665,
                 "y": 408.6666666666667
             }
         },
@@ -98,7 +98,7 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 388.6666666666667,
-                "y": 664.6666666666666
+                "y": 3504.6666666666665
             }
         },
         "src/assets/assets_map3/map3.tmx#map3": {
@@ -135,7 +135,7 @@
             "scaleInDock": 1
         }
     },
-    "last.exportedFilePath": "C:/Users/Gaspard Rouault/Documents/Professionnel/EPF/CPO/Jeu CPO/src/assets/assets_map3",
+    "last.exportedFilePath": "C:/Users/Gaspard Rouault/Documents/Professionnel/EPF/CPO/Jeu CPO/src/assets/assets_map1",
     "last.imagePath": "C:/Users/Gaspard Rouault/Documents/Professionnel/EPF/CPO/Jeu CPO/src/assets/assets_map3",
     "map.height": 150,
     "map.lastUsedExportFilter": "Fichiers de carte JSON (*.tmj *.json)",
@@ -147,6 +147,7 @@
     "project": "map1.tiled-project",
     "property.type": "bool",
     "recentFiles": [
+        "src/assets/assets_map1/map1.tmj",
         "src/assets/assets_map2/map2.tmj",
         "src/assets/assets_map1/map1.tmx",
         "src/assets/assets_map2/map2.tmx",
