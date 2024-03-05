@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "src/assets/assets_map2/map2.tmx",
+    "activeFile": "src/assets/assets_map1/map1.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "Tous les Fichiers (*)",
@@ -46,8 +46,8 @@
             "scale": 0.75,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 499.33333333333326,
-                "y": 408.6666666666667
+                "x": 495.33333333333326,
+                "y": 405.99999999999994
             }
         },
         "src/assets/assets_map1/map1.tmj#map1": {
@@ -57,8 +57,8 @@
             "scale": 0.21048437499999997,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1603.444436196274,
-                "y": 653.2551406725561
+                "x": 1460.916041867716,
+                "y": 643.7532477173188
             }
         },
         "src/assets/assets_map1/map1.tmx#Fond de map": {
@@ -85,8 +85,8 @@
             "scale": 0.75,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 1200.6666666666665,
-                "y": 408.6666666666667
+                "x": 1198,
+                "y": 407.33333333333337
             }
         },
         "src/assets/assets_map2/map2.tmx#map2": {
@@ -97,8 +97,8 @@
             "scale": 0.75,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 388.6666666666667,
-                "y": 3504.6666666666665
+                "x": 387.33333333333326,
+                "y": 3502
             }
         },
         "src/assets/assets_map3/map3.tmx#map3": {
@@ -142,15 +142,19 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 25,
     "openFiles": [
-        "src/assets/assets_map2/map2.tmx"
+        "src/assets/assets_map1/map1.tmj",
+        "src/assets/assets_map2/map2.tmx",
+        "src/assets/assets_map3/map3.tmx",
+        "src/assets/assets_map1/map1.tmx"
     ],
     "project": "map1.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "src/assets/assets_map1/map1.tmj",
-        "src/assets/assets_map2/map2.tmj",
         "src/assets/assets_map1/map1.tmx",
+        "src/assets/assets_map1/map1.tmj",
         "src/assets/assets_map2/map2.tmx",
+        "src/assets/assets_map3/map3.tmx",
+        "src/assets/assets_map2/map2.tmj",
         "map1.tmx",
         "src/map1.tmx"
     ],
