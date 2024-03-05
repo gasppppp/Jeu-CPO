@@ -2,6 +2,8 @@ var clavier;
 var player;
 var boutonFeu;
 var arme;
+var demon;
+var enemymove;
 
 export default class niveau3 extends Phaser.Scene {
   // constructeur de la classe
@@ -15,6 +17,11 @@ export default class niveau3 extends Phaser.Scene {
   this.load.image("tuiles_de_jeu2", "src/assets/assets_map3/tileset_space.png");
   this.load.image("tuiles_de_jeu3", "src/assets/assets_map3/étoiles.png");
   this.load.tilemapTiledJSON("map3", "src/assets/assets_map3/map3.tmj");
+  //enemy
+  this.load.spritesheet("demon", "src/assets/assets_map3/sprite_demon.png", {
+    frameWidth: 32,
+    frameHeight: 64
+  });
 }
 
   create() {
@@ -100,6 +107,62 @@ export default class niveau3 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 800, 4800);
     // ancrage de la caméra sur le joueur
     this.cameras.main.startFollow(player);
+
+    demon = this.physics.add.group();
+    var e1 = demon.create(300, 448, "demon");
+    var e2 = demon.create(25, 864, "demon");
+    var e3 = demon.create(500, 1056, "demon");
+    var e4 = demon.create(500, 1376, "demon");
+    var e5 = demon.create(40, 1312, "demon");
+    var e6 = demon.create(160, 1888, "demon");
+    var e7 = demon.create(128, 3040, "demon");
+    var e8 = demon.create(400, 4700, "demon");
+    var e9 = demon.create(128, 3040, "demon");
+    var e10 = demon.create(400, 4700, "demon");
+    var e11 = demon.create(128, 3040, "demon");
+    var e12 = demon.create(224, 4416, "demon");
+
+    //this.physics.add.collider(demon, player);
+    this.physics.add.collider(demon, calque_plateformes);
+    
+    
+    
+
+    //enemy animation
+     this.anims.create({
+      key: "enemyMoves",
+      frames: this.anims.generateFrameNumbers("demon", {
+        start: 0,
+        end: 3
+      }),
+      frameRate: 4,
+      repeat: -1
+    });
+
+    enemymove = this.tweens.add({
+      targets: demon.getChildren(),
+      ease: "Linear",
+      duration: 3000,
+      yoyo: true,
+      x: "+=100",
+      delay: 0,
+      hold: 0,
+      repeatDelay: 0,
+      repeat: -1
+    });
+    e1.anims.play("enemyMoves", true);
+    e2.anims.play("enemyMoves", true);
+    e3.anims.play("enemyMoves", true);
+    e4.anims.play("enemyMoves", true);
+    e5.anims.play("enemyMoves", true);
+    e6.anims.play("enemyMoves", true);
+    e7.anims.play("enemyMoves", true);
+    e8.anims.play("enemyMoves", true);
+    e9.anims.play("enemyMoves", true);
+    e10.anims.play("enemyMoves", true);
+    e11.anims.play("enemyMoves", true);
+    e12.anims.play("enemyMoves", true);
+    
   }
 
   update() {

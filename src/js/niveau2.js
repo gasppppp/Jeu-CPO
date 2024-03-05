@@ -136,6 +136,7 @@ export default class niveau2 extends Phaser.Scene {
     e7.anims.play("enemyMoves", true);
     e8.anims.play("enemyMoves", true);
     
+    
   }
 
   update() {
