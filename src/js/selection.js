@@ -75,14 +75,9 @@ export default class selection extends Phaser.Scene {
     this.porte2 = this.physics.add.staticSprite(50, 264, "img_porte2");
     this.porte3 = this.physics.add.staticSprite(775, 234, "img_porte3");
 
-    /****************************
-     *  CREATION DU PERSONNAGE  *
-     ****************************/
 
-    // On créée un nouveau personnage : player
     player = this.physics.add.sprite(100, 450, "img_perso");
-
-    //  propriétés physiques de l'objet player :
+    //player.direction = 'right';  
     player.setBounce(0.2); // on donne un petit coefficient de rebond
     player.setCollideWorldBounds(true); // le player se cognera contre les bords du monde
 
@@ -121,26 +116,17 @@ export default class selection extends Phaser.Scene {
       repeat: -1
     });
 
-    /***********************
-     *  CREATION DU CLAVIER *
-     ************************/
     // ceci permet de creer un clavier et de mapper des touches, connaitre l'état des touches
     clavier = this.input.keyboard.createCursorKeys();
 
-    /*****************************************************
-     *  GESTION DES INTERATIONS ENTRE  GROUPES ET ELEMENTS *
-     ******************************************************/
-
     //  Collide the player and the groupe_etoiles with the groupe_plateformes
     this.physics.add.collider(player, groupe_plateformes);
-
-
 
     // Ajout du texte de bienvenue personnalisé
     bienvenueTexte = this.add.text(
       this.cameras.main.width / 2,
       50,
-      "Bienvenue dans l'Epopée de Bérénice !",
+      "Bienvenue dans l'Epopée de Dorelys !",
       {
           font: "bold 36px Arial",
           fill: "#ffffff",
@@ -200,7 +186,7 @@ reglesScene.create = function () {
     var reglesTexte = this.add.text(
         this.cameras.main.width / 2,
         this.cameras.main.height / 2 - 50,
-        "Règles du jeu\n\nVous êtes Bérénice, une petite fille née hier.\nVous avez perdu vos parents, dommage pour vous !\nIl vous faut donc traverser les trois niveaux pour\nespérer les revoir. Attention, des monstres sont là\npour vous bouffer donc équipez-vous d'une\narme dès que vous le pouvez !",
+        "Règles du jeu\n\nVous êtes Dorelys, une petite fille née hier.\nVous avez perdu vos parents, dommage pour vous !\nIl vous faut donc traverser les trois niveaux pour\nespérer les revoir. Attention, des monstres sont là\npour vous bouffer donc équipez-vous d'une\narme dès que vous le pouvez !",
         {
             font: "bold 24px Arial",
             fill: "#ffffff",

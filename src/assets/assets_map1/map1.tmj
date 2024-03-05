@@ -157,12 +157,12 @@
          "columns":8,
          "firstgid":1,
          "image":"tileset_grotte.png",
-         "imageheight":1279,
+         "imageheight":1280,
          "imagewidth":256,
          "margin":0,
          "name":"map1",
          "spacing":0,
-         "tilecount":312,
+         "tilecount":320,
          "tileheight":32,
          "tiles":[
                 {
