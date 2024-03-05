@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="25" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
- <tileset firstgid="1" name="map3" tilewidth="32" tileheight="32" tilecount="300" columns="20">
-  <image source="tileset_space.png" trans="ffffff" width="640" height="480"/>
+ <editorsettings>
+  <export target="map3.tmj" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" name="tileset_space" tilewidth="32" tileheight="32" tilecount="300" columns="20">
+  <image source="tileset_space.png" width="640" height="480"/>
   <tile id="0">
    <properties>
     <property name="estSolide" type="bool" value="false"/>

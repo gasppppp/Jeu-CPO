@@ -660,7 +660,7 @@
          "imageheight":480,
          "imagewidth":640,
          "margin":0,
-         "name":"map3",
+         "name":"tileset_space",
          "spacing":0,
          "tilecount":300,
          "tileheight":32,
@@ -3241,8 +3241,7 @@
                          "value":false
                         }]
                 }],
-         "tilewidth":32,
-         "transparentcolor":"#ffffff"
+         "tilewidth":32
         }, 
         {
          "columns":7,
