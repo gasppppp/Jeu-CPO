@@ -86,10 +86,10 @@
         },
         "src/assets/assets_map2/map2.tmx": {
             "scale": 0.75,
-            "selectedLayer": 4,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 2827.333333333333,
-                "y": 299.33333333333337
+                "x": 2452.6666666666665,
+                "y": 467.33333333333326
             }
         },
         "src/assets/assets_map2/map2.tmx#map2": {
@@ -97,11 +97,11 @@
             "scaleInEditor": 1
         },
         "src/assets/assets_map3/map3.tmx": {
-            "scale": 0.33,
+            "scale": 0.25,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 486.3636363636364,
-                "y": 837.8787878787879
+                "x": 398,
+                "y": 3954
             }
         },
         "src/assets/assets_map3/map3.tmx#map3": {

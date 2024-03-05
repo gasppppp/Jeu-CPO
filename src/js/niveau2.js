@@ -2,6 +2,8 @@ var clavier;
 var player;
 var boutonFeu;
 var arme;
+var enemymove;
+var lezard;
 
 export default class niveau2 extends Phaser.Scene {
   // constructeur de la classe
@@ -13,6 +15,12 @@ export default class niveau2 extends Phaser.Scene {
   preload() {
     this.load.image("tuiles_de_jeu", "src/assets/assets_map2/tileset_foret.png");
     this.load.tilemapTiledJSON("map2", "src/assets/assets_map2/map2.tmj");
+
+    //enemy
+    this.load.spritesheet("lezard", "src/assets/assets_map2/sprite_lezard.png", {
+      frameWidth: 32,
+      frameHeight: 64
+    });
   }
 
   create() {
@@ -81,6 +89,53 @@ export default class niveau2 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 3200, 800);
     // ancrage de la caméra sur le joueur
     this.cameras.main.startFollow(player);
+
+    lezard = this.physics.add.group();
+    var e1 = lezard.create(448, 300, "lezard");
+    var e2 = lezard.create(864, 25, "lezard");
+    var e3 = lezard.create(1056, 500, "lezard");
+    var e4 = lezard.create(1376, 500, "lezard");
+    var e5 = lezard.create(1312, 40, "lezard");
+    var e6 = lezard.create(1888, 160, "lezard");
+    var e7 = lezard.create(3040, 128, "lezard");
+    var e8 = lezard.create(2368, 500, "lezard");
+
+    //this.physics.add.collider(lezard, player);
+    this.physics.add.collider(lezard, calque_plateformes);
+    
+    
+
+    //enemy animation
+     this.anims.create({
+      key: "enemyMoves",
+      frames: this.anims.generateFrameNumbers("lezard", {
+        start: 0,
+        end: 3
+      }),
+      frameRate: 4,
+      repeat: -1
+    });
+
+    enemymove = this.tweens.add({
+      targets: lezard.getChildren(),
+      ease: "Linear",
+      duration: 3000,
+      yoyo: true,
+      x: "+=100",
+      delay: 0,
+      hold: 0,
+      repeatDelay: 0,
+      repeat: -1
+    });
+    e1.anims.play("enemyMoves", true);
+    e2.anims.play("enemyMoves", true);
+    e3.anims.play("enemyMoves", true);
+    e4.anims.play("enemyMoves", true);
+    e5.anims.play("enemyMoves", true);
+    e6.anims.play("enemyMoves", true);
+    e7.anims.play("enemyMoves", true);
+    e8.anims.play("enemyMoves", true);
+    
   }
 
   update() {

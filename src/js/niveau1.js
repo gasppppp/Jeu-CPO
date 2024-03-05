@@ -1,3 +1,4 @@
+var enemymove
 var clavier;
 var player;
 var boutonFeu;
