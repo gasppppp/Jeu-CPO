@@ -3,20 +3,28 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "map1.tmx",
+    "activeFile": "src/assets/assets_map2/map2.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "Tous les Fichiers (*)",
     "fileStates": {
         "": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 0.75
+        },
+        "#map3": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "#tileset_space": {
             "scaleInDock": 1
         },
         "map1.tmx": {
-            "scale": 0.21048437499999997,
-            "selectedLayer": 0,
+            "scale": 0.75,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 1598.693489718655,
-                "y": 581.9909435082772
+                "x": 1924.6666666666665,
+                "y": 415.33333333333326
             }
         },
         "map1.tmx#Fond de map": {
@@ -26,11 +34,63 @@
         },
         "map1.tmx#map1": {
             "dynamicWrapping": false,
-            "scaleInDock": 1
+            "scaleInDock": 0.75,
+            "scaleInEditor": 0.75
         },
         "map1.tmx#tileset_grotte": {
             "dynamicWrapping": false,
             "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "src/assets/assets_map1/map1.tmj": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 523,
+                "y": 461
+            }
+        },
+        "src/assets/assets_map1/map1.tmj#map1": {
+            "scaleInDock": 1
+        },
+        "src/assets/assets_map1/map1.tmx": {
+            "scale": 0.21048437499999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1603.444436196274,
+                "y": 653.2551406725561
+            }
+        },
+        "src/assets/assets_map1/map1.tmx#Fond de map": {
+            "scaleInDock": 1
+        },
+        "src/assets/assets_map1/map1.tmx#map1": {
+            "scaleInDock": 1
+        },
+        "src/assets/assets_map1/map1.tmx#tileset_grotte": {
+            "scaleInDock": 1
+        },
+        "src/assets/assets_map2/map2.tmj": {
+            "scale": 0.21048437499999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1603.444436196274,
+                "y": 401.45497735877075
+            }
+        },
+        "src/assets/assets_map2/map2.tmj#map2": {
+            "scaleInDock": 1
+        },
+        "src/assets/assets_map2/map2.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 2575.333333333333,
+                "y": 408.6666666666667
+            }
+        },
+        "src/assets/assets_map2/map2.tmx#map2": {
+            "scaleInDock": 0.75,
             "scaleInEditor": 1
         },
         "src/map1.tmx": {
@@ -52,19 +112,30 @@
             "scaleInDock": 1
         }
     },
-    "last.exportedFilePath": "C:/Users/Gaspard Rouault/Documents/Professionnel/EPF/CPO/Jeu CPO/src/assets/assets_map1",
-    "last.imagePath": "C:/Users/Gaspard Rouault/Documents/Professionnel/EPF/CPO/Jeu CPO/src/assets/assets_map1",
+    "last.exportedFilePath": "C:/Users/Gaspard Rouault/Documents/Professionnel/EPF/CPO/Jeu CPO/src/assets/assets_map2",
+    "last.imagePath": "C:/Users/Gaspard Rouault/Documents/Professionnel/EPF/CPO/Jeu CPO/src/assets/assets_map3",
+    "map.height": 150,
     "map.lastUsedExportFilter": "Fichiers de carte JSON (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
+    "map.width": 25,
     "openFiles": [
-        "map1.tmx"
+        "src/assets/assets_map2/map2.tmx"
     ],
     "project": "map1.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "src/map1.tmx",
-        "map1.tmx"
+        "src/assets/assets_map2/map2.tmj",
+        "src/assets/assets_map1/map1.tmx",
+        "src/assets/assets_map2/map2.tmx",
+        "map1.tmx",
+        "src/map1.tmx"
     ],
     "tileset.embedInMap": true,
-    "tileset.type": 0
+    "tileset.tileSize": {
+        "height": 32,
+        "width": 32
+    },
+    "tileset.transparentColor": "#ffffff",
+    "tileset.type": 0,
+    "tileset.useTransparentColor": true
 }
