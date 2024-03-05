@@ -1,67 +1,126 @@
-import * as fct from "/src/js/fonctions.js";
+var clavier;
+var player;
+var boutonFeu;
+var arme;
 
 export default class niveau1 extends Phaser.Scene {
+
   // constructeur de la classe
   constructor() {
     super({
       key: "niveau1" //  ici on précise le nom de la classe en tant qu'identifiant
     });
   }
-  preload() {
-    this.load.image("img_grotte", "src/assets/assets_map1/fond_grotte.png");
-    
-// chargement tuiles de jeu
-//this.load.image("Phaser_tuilesdejeu", "src/assets/tuilesJeu.png");
-// chargement de la carte
-//this.load.tilemapTiledJSON("carte", "src/assets/map.tmj");
 
+
+
+  // création et lancement du jeu
+  //new Phaser.Game(4);
+
+
+  preload() {
+    this.load.image("tuiles_de_jeu", "src/assets/assets_map1/tileset_grotte.png");
+    this.load.tilemapTiledJSON("map1", "src/assets/assets_map1/map1.tmj");
   }
 
 
 
   create() {
-    fct.doNothing();
-    fct.doAlsoNothing();
-
-    this.add.image(400, 300, "img_grotte");
-    this.groupe_plateformes = this.physics.add.staticGroup();
-    this.groupe_plateformes.create(200, 584, "img_plateforme");
-    this.groupe_plateformes.create(600, 584, "img_plateforme");
-    // ajout d'un texte distintcif  du niveau
-    this.add.text(400, 100, "Vous êtes dans le niveau 1", {
-      fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
-      fontSize: "22pt"
+    clavier = this.input.keyboard.createCursorKeys();
+    //boutonFeu = this.input.keyboard.addKey('A');
+    this.anims.create({
+      key: "anim_tourne_gauche", // key est le nom de l'animation : doit etre unique poru la scene.
+      frames: this.anims.generateFrameNumbers("img_perso", { start: 3, end: 5 }), // on prend toutes les frames de img perso numerotées de 0 à 3
+      frameRate: 10, // vitesse de défilement des frames
+      repeat: -1 // nombre de répétitions de l'animation. -1 = infini
+    }); 4
+    this.anims.create({
+      key: "anim_tourne_droite", // key est le nom de l'animation : doit etre unique poru la scene.
+      frames: this.anims.generateFrameNumbers("img_perso", { start: 6, end: 9 }), // on prend toutes les frames de img perso numerotées de 0 à 3
+      frameRate: 10, // vitesse de défilement des frames
+      repeat: -1 // nombre de répétitions de l'animation. -1 = infini
     });
-
-    this.porte_retour = this.physics.add.staticSprite(100, 550, "img_porte1");
-
-    this.player = this.physics.add.sprite(100, 450, "img_perso");
-    this.player.refreshBody();
-    this.player.setBounce(0.2);
-    this.player.setCollideWorldBounds(true);
-    this.clavier = this.input.keyboard.createCursorKeys();
-    this.physics.add.collider(this.player, this.groupe_plateformes);
+    this.anims.create({
+      key: "anim_face",
+      frames: [{ key: "img_perso", frame: 1 }],
+      frameRate: 20
+    });
+    // chargement de la carte
+    const carteDuNiveau = this.add.tilemap("map1");
+    // chargement du jeu de tuiles
+    const tileset = carteDuNiveau.addTilesetImage(
+      "map1",
+      "tuiles_de_jeu"
+    );
+    // chargement du calque calque_background
+    const calque_background = carteDuNiveau.createLayer(
+      "Calque_background",
+      tileset
+    );
+    // chargement du calque calque_background_2
+    const calque_decor = carteDuNiveau.createLayer(
+      "Calque_décor",
+      tileset
+    );
+    // chargement du calque calque_plateformes
+    const calque_plateformes = carteDuNiveau.createLayer(
+      "Calque_plateforme",
+      tileset
+    );
+    // chargement du calque calque_objets
+    const calque_objets = carteDuNiveau.createLayer(
+      "Calque_Objets",
+      tileset
+    );
+    player = this.physics.add.sprite(200, 500, 'img_perso');
+    player.setCollideWorldBounds(true);
+    player.setBounce(0.2);
+    // définition des tuiles de plateformes qui sont solides
+    // utilisation de la propriété estSolide
+    calque_plateformes.setCollisionByProperty({ estSolide: true });
+    // utilisation de la propriété estSolide
+    this.physics.add.collider(player, calque_plateformes);
+    // redimentionnement du monde avec les dimensions calculées via tiled
+    this.physics.world.setBounds(0, 0, 3200, 800);
+    //  ajout du champs de la caméra de taille identique à celle du monde
+    this.cameras.main.setBounds(0, 0, 3200, 800);
+    // ancrage de la caméra sur le joueur
+    this.cameras.main.startFollow(player);
   }
 
   update() {
-    if (this.clavier.left.isDown) {
-      this.player.setVelocityX(-160);
-      this.player.anims.play("anim_tourne_gauche", true);
-    } else if (this.clavier.right.isDown) {
-      this.player.setVelocityX(160);
-      this.player.anims.play("anim_tourne_droite", true);
+    if (clavier.left.isDown) {
+      player.setVelocityX(-160);
+      player.anims.play("anim_tourne_gauche", true);
+    } else if (clavier.right.isDown) {
+      player.setVelocityX(160);
+      player.anims.play("anim_tourne_droite", true);
     } else {
-      this.player.setVelocityX(0);
-      this.player.anims.play("anim_face");
+      player.setVelocityX(0);
+      player.anims.play("anim_face");
     }
-    if (this.clavier.up.isDown && this.player.body.touching.down) {
-      this.player.setVelocityY(-330);
+    if (clavier.up.isDown && player.body.blocked.down) {
+      player.setVelocityY(-330);
     }
-
-    if (Phaser.Input.Keyboard.JustDown(this.clavier.space) == true) {
-      if (this.physics.overlap(this.player, this.porte_retour)) {
-        this.scene.switch("selection");
-      }
+    /**if (cursors.left.isDown) {
+      // enregistrement de la direction : gauche
+      player.direction = 'left';
+      player.setVelocityX(-160);
+      player.anims.play('left', true);
     }
+    else if (cursors.right.isDown) {
+      // enregistrement de la direction : droite
+      player.direction = 'right';
+      player.setVelocityX(160);
+      player.anims.play('right', true);
+    }*/
   }
+
+  /**tirer(player, arme) {
+    alert("joueur en position" + player.x + "," + player.y + ", direction du tir: "
+      + player.direction);
+  }*/
+
+
 }
+
