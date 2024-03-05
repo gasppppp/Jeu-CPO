@@ -3,7 +3,8 @@ var clavier;
 var player;
 var boutonFeu;
 var arme;
-var crabes;
+var enemyMove;
+var crabe;
 var calque_plateformes;
 
 export default class niveau1 extends Phaser.Scene {
@@ -19,7 +20,10 @@ export default class niveau1 extends Phaser.Scene {
   preload() {
     this.load.image("tuiles_de_jeu", "src/assets/assets_map1/tileset_grotte.png");
     this.load.tilemapTiledJSON("map1", "src/assets/assets_map1/map1.tmj");
-    this.load.image("img_crabe", "src/assets/assets_map1/sprite_crabe.png");
+    this.load.spritesheet("img_crabe", "src/assets/assets_map1/sprite_crabe.png", {
+      frameWidth: 48,
+      frameHeight: 48
+    });
   }
 
 
@@ -109,35 +113,40 @@ export default class niveau1 extends Phaser.Scene {
     // ancrage de la caméra sur le joueur
     this.cameras.main.startFollow(player);
 
-    // Création d'un groupe pour les crabes
-    crabes = this.physics.add.group();
+    crabe = this.physics.add.group();
+    var e1 = crabe.create(498, 300, "img_crabe");
+    var e2 = crabe.create(1625, 448, "img_crabe");
+    var e3 = crabe.create(2233, 256, "img_crabe");
+    var e4 = crabe.create(2944, 592, "img_crabe");
 
-    // Appel de la fonction pour générer un crabe
-    this.genererCrabe();
-  }
-
-  // Fonction pour générer un crabe aux coordonnées spécifiées
-  genererCrabe() {
-    const crabe = crabes.create(500, 100, 'img_crabe');
-    crabe.setFrame(Phaser.Math.RND.between(0, 2)); // Utilisez un indice aléatoire entre 0 et 2
-    crabe.setCollideWorldBounds(true);
-    crabe.setBounce(0.2);
     this.physics.add.collider(crabe, calque_plateformes);
 
-    crabe.setVelocityX(120);
-    crabe.anims.play("anim_crabe_droite"); // ou "anim_crabe_gauche" selon le besoin
-
-    // Ajoutez le tween pour les mouvements aller-retour
-    this.tweens.add({
-      targets: crabe,
-      x: "+=100", // Déplacez le crabe de 100 pixels vers la droite (ajustez selon vos besoins)
-      ease: 'Linear', // Vous pouvez ajuster cela selon vos préférences
-      duration: 1000, // Durée d'un aller-retour
-      yoyo: true, // Faites le mouvement en sens inverse (retour)
-      repeat: -1, // Répétez indéfiniment
+    //enemy animation
+    this.anims.create({
+      key: "enemyMoves",
+      frames: this.anims.generateFrameNumbers("img_crabe", {
+        start: 0,
+        end: 2
+      }),
+      frameRate: 4,
+      repeat: -1
     });
 
-    
+    enemymove = this.tweens.add({
+      targets: crabe.getChildren(),
+      ease: "Linear",
+      duration: 3000,
+      yoyo: true,
+      x: "+=100",
+      delay: 0,
+      hold: 0,
+      repeatDelay: 0,
+      repeat: -1
+    });
+    e1.anims.play("enemyMoves", true);
+    e2.anims.play("enemyMoves", true);
+    e3.anims.play("enemyMoves", true);
+    e4.anims.play("enemyMoves", true);
   }
 
 
