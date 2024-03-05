@@ -18,8 +18,8 @@ export default class niveau2 extends Phaser.Scene {
 
     //enemy
     this.load.spritesheet("lezard", "src/assets/assets_map2/sprite_lezard.png", {
-      frameWidth: 32,
-      frameHeight: 64
+      frameWidth: 48,
+      frameHeight: 36
     });
   }
 
@@ -109,8 +109,8 @@ export default class niveau2 extends Phaser.Scene {
      this.anims.create({
       key: "enemyMoves",
       frames: this.anims.generateFrameNumbers("lezard", {
-        start: 0,
-        end: 3
+        start: 6,
+        end: 8
       }),
       frameRate: 4,
       repeat: -1
@@ -119,7 +119,7 @@ export default class niveau2 extends Phaser.Scene {
     enemymove = this.tweens.add({
       targets: lezard.getChildren(),
       ease: "Linear",
-      duration: 3000,
+      duration: 2500,
       yoyo: true,
       x: "+=100",
       delay: 0,

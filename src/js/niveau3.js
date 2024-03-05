@@ -19,8 +19,8 @@ export default class niveau3 extends Phaser.Scene {
   this.load.tilemapTiledJSON("map3", "src/assets/assets_map3/map3.tmj");
   //enemy
   this.load.spritesheet("demon", "src/assets/assets_map3/sprite_demon.png", {
-    frameWidth: 32,
-    frameHeight: 64
+    frameWidth: 48,
+    frameHeight: 48
   });
 }
 
@@ -109,19 +109,19 @@ export default class niveau3 extends Phaser.Scene {
     this.cameras.main.startFollow(player);
 
     demon = this.physics.add.group();
-    var e1 = demon.create(300, 448, "demon");
-    var e2 = demon.create(25, 864, "demon");
-    var e3 = demon.create(500, 1056, "demon");
-    var e4 = demon.create(500, 1376, "demon");
-    var e5 = demon.create(40, 1312, "demon");
-    var e6 = demon.create(160, 1888, "demon");
-    var e7 = demon.create(128, 3040, "demon");
-    var e8 = demon.create(400, 4700, "demon");
-    var e9 = demon.create(128, 3040, "demon");
-    var e10 = demon.create(400, 4700, "demon");
-    var e11 = demon.create(128, 3040, "demon");
-    var e12 = demon.create(224, 4416, "demon");
-
+    var e1 = demon.create(175, 4416, "demon");
+    var e2 = demon.create(128, 4192, "demon");
+    var e3 = demon.create(64, 3328, "demon");
+    var e4 = demon.create(416, 3072, "demon");
+    var e5 = demon.create(64, 2752, "demon");
+    var e6 = demon.create(640, 2432, "demon");
+    var e7 = demon.create(64, 2112, "demon");
+    var e8 = demon.create(390, 1408, "demon");
+    var e9 = demon.create(420, 1120, "demon");
+    var e10 = demon.create(422, 832, "demon");
+    var e11 = demon.create(608, 512, "demon");
+    var e12 = demon.create(64, 192, "demon");
+    
     //this.physics.add.collider(demon, player);
     this.physics.add.collider(demon, calque_plateformes);
     
@@ -132,8 +132,8 @@ export default class niveau3 extends Phaser.Scene {
      this.anims.create({
       key: "enemyMoves",
       frames: this.anims.generateFrameNumbers("demon", {
-        start: 0,
-        end: 3
+        start: 6,
+        end: 8
       }),
       frameRate: 4,
       repeat: -1
@@ -142,7 +142,7 @@ export default class niveau3 extends Phaser.Scene {
     enemymove = this.tweens.add({
       targets: demon.getChildren(),
       ease: "Linear",
-      duration: 3000,
+      duration: 2000,
       yoyo: true,
       x: "+=100",
       delay: 0,
@@ -162,7 +162,6 @@ export default class niveau3 extends Phaser.Scene {
     e10.anims.play("enemyMoves", true);
     e11.anims.play("enemyMoves", true);
     e12.anims.play("enemyMoves", true);
-    
   }
 
   update() {
