@@ -1,7 +1,9 @@
+var enemymove
 var clavier;
 var player;
 var boutonFeu;
 var arme;
+var cible;
 
 export default class niveau1 extends Phaser.Scene {
 
@@ -19,6 +21,11 @@ export default class niveau1 extends Phaser.Scene {
     this.load.image("img_crabe", "src/assets/assets_map1/sprite_crabe.png");
     this.load.image("img_gorille", "src/assets/assets_map1/sprite_gorille.png");
     this.load.image("img_lezard", "src/assets/assets_map1/sprite_lezard.png");
+     //enemy
+     this.load.spritesheet("cible", "src/assets/sprite_gorille.png", {
+      frameWidth: 32,
+      frameHeight: 64
+    });
   }
 
 
@@ -90,6 +97,9 @@ export default class niveau1 extends Phaser.Scene {
     const monstre2 = this.createMonstre(500, 300, 'img_gorille');
     // Exemple : placer un autre monstre à la position (500, 300) avec une autre feuille de sprites "autre_monstre_sprite"
     const monstre3 = this.createMonstre(500, 300, 'img_lezard');
+     
+
+    
   }
 
   update() {
