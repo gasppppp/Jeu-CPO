@@ -24,7 +24,7 @@ export default class niveau2 extends Phaser.Scene {
     });
   }
   preload() {
-    this.load.image("tuiles_de_jeu", "src/assets/assets_map2/tileset_foret.png");
+    this.load.image("tuiles_de_jeu2", "src/assets/assets_map2/tileset_foret.png");
     this.load.tilemapTiledJSON("map2", "src/assets/assets_map2/map2.tmj");
 
     //enemy
@@ -87,7 +87,7 @@ export default class niveau2 extends Phaser.Scene {
     // chargement du jeu de tuiles
     const tileset = carteDuNiveau.addTilesetImage(
       "map2",
-      "tuiles_de_jeu"
+      "tuiles_de_jeu2"
     );
     // chargement du calque calque_background
     const calque_background = carteDuNiveau.createLayer(
@@ -189,16 +189,30 @@ export default class niveau2 extends Phaser.Scene {
     });
 
     enemymove = this.tweens.add({
-      targets: lezard.getChildren(),
+      targets: lezard.getChildren().filter(c => !c.isDestroyed), // Appliquer le tween uniquement aux crabes non détruits
       ease: "Linear",
-      duration: 2500,
+      duration: 3000,
       yoyo: true,
       x: "+=100",
       delay: 0,
       hold: 0,
       repeatDelay: 0,
-      repeat: -1
-    });
+      repeat: -1,
+      onComplete: function (tween, targets) {
+          // Réinitialiser le tween pour chaque lezard à la fin du tween
+          targets.forEach(lezard => {
+              this.tweens.add({
+                  targets: lezard,
+                  ease: "Linear",
+                  duration: 3000,
+                  yoyo: true,
+                  x: `+=100`,
+                  repeat: -1,
+              });
+          });
+      },
+      onCompleteScope: this,
+  });
     e1.anims.play("enemyMoves", true);
     e2.anims.play("enemyMoves", true);
     e3.anims.play("enemyMoves", true);
@@ -279,18 +293,23 @@ export default class niveau2 extends Phaser.Scene {
 
   // fonction déclenchée lorsque uneBalle et unLezard se superposent
   hit(uneBalle, unLezard) {
-    uneBalle.destroy(); // destruction de la balle
+    uneBalle.destroy(); // Destruction de la balle
+  
+    // Réduction des points de vie du crabe touché
+    unLezard.pointsDeVie--;
+  
+    // Si les points de vie atteignent zéro, détruire le lezard
+    if (unLezard.pointsDeVie <= 0) {
+        // Marquer le lezard comme détruit
+        unLezard.isDestroyed = true;
+        
+        
 
-   // Réduction des points de vie du Lezard touché
-   unLezard.pointsDeVie--;
-
-   // Si les points de vie atteignent zéro, détruire le lezard
-   if (unLezard.pointsDeVie <= 0) {
-      // Arrêter le tween du lezard avant de le détruire
-      enemymove.remove(TweenData => TweenData.targets[0] === unLezard);
-      unLezard.destroy();
-      compteurMonstres--;
-   } 
+        // Destruction du Lezard
+        unLezard.destroy();
+        compteurMonstres--;
+        
+    }
   }
 
   joueurGagne() {

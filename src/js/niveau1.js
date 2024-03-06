@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+//import Phaser from "phaser";
 
 var enemymove
 var clavier;
@@ -16,7 +16,7 @@ var aUnPistolet = false;
 var joueurVivant = true;
 var compteurMonstres;
 var sceneFermee = false;
-
+var nombreTotalMonstres;
 
 
 export default class niveau1 extends Phaser.Scene {
@@ -30,7 +30,7 @@ export default class niveau1 extends Phaser.Scene {
 
 
   preload() {
-    this.load.image("tuiles_de_jeu", "src/assets/assets_map1/tileset_grotte.png");
+    this.load.image("tuiles_de_jeu1", "src/assets/assets_map1/tileset_grotte.png");
     this.load.tilemapTiledJSON("map1", "src/assets/assets_map1/map1.tmj");
     this.load.spritesheet("img_dude_arme", "src/assets/dude_avec_pistolet.png", {
       frameWidth: 48,
@@ -99,7 +99,7 @@ export default class niveau1 extends Phaser.Scene {
     // chargement du jeu de tuiles
     const tileset = carteDuNiveau.addTilesetImage(
       "map1",
-      "tuiles_de_jeu"
+      "tuiles_de_jeu1"
     );
     // chargement du calque calque_background
     const calque_background = carteDuNiveau.createLayer(
@@ -330,8 +330,8 @@ export default class niveau1 extends Phaser.Scene {
     if (unCrabe.pointsDeVie <= 0) {
         // Marquer le crabe comme détruit
         unCrabe.isDestroyed = true;
-        // Supprimer le tween existant du crabe
-        this.tweens.killTweensOf(unCrabe);
+        
+        
 
         // Destruction du crabe
         unCrabe.destroy();

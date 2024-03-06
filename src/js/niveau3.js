@@ -19,9 +19,9 @@ export default class niveau3 extends Phaser.Scene {
     });
   }
   preload() {
-  this.load.image("tuiles_de_jeu1", "src/assets/assets_map3/tileset_ships.png");
-  this.load.image("tuiles_de_jeu2", "src/assets/assets_map3/tileset_space.png");
-  this.load.image("tuiles_de_jeu3", "src/assets/assets_map3/étoiles.png");
+  this.load.image("tuiles_de_jeua", "src/assets/assets_map3/tileset_ships.png");
+  this.load.image("tuiles_de_jeub", "src/assets/assets_map3/tileset_space.png");
+  this.load.image("tuiles_de_jeuc", "src/assets/assets_map3/étoiles.png");
   this.load.image("img_pistolet", "src/assets/Armes/sprite_pistolet.png");
   this.load.image("img_bullet", "src/assets/Armes/balle_pistolet.png");
   this.load.tilemapTiledJSON("map3", "src/assets/assets_map3/map3.tmj");
@@ -63,15 +63,15 @@ export default class niveau3 extends Phaser.Scene {
     // chargement du jeu de tuiles
     const tileset1 = carteDuNiveau.addTilesetImage(
       "tileset_ships",
-      "tuiles_de_jeu1",
+      "tuiles_de_jeua",
     );
     const tileset2 = carteDuNiveau.addTilesetImage(
       "tileset_space",
-      "tuiles_de_jeu2"
+      "tuiles_de_jeub"
     );
     const tileset3 = carteDuNiveau.addTilesetImage(
       "étoiles",
-      "tuiles_de_jeu3"
+      "tuiles_de_jeuc"
     );
     // chargement du calque calque_background
     const calque_background = carteDuNiveau.createLayer(
