@@ -1,5 +1,3 @@
-import Phaser from "phaser";
-
 export default class transition1 extends Phaser.Scene {
   constructor() {
     super({ key: "transition1" });
@@ -11,12 +9,12 @@ export default class transition1 extends Phaser.Scene {
 
   create() {
     // on place les éléments de fond
-    this.add.image(0, 0, "transition1").setOrigin(0).setDepth(0);
+    this.add.image(400, 300, "transition1");
   }
 
   update() {
     this.time.addEvent({
-      delay: 2000,
+      delay: 6000,
       callback: function () {
         this.scene.start("niveau2");
       },

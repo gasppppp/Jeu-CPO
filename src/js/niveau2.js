@@ -279,18 +279,21 @@ export default class niveau2 extends Phaser.Scene {
 
   // fonction déclenchée lorsque uneBalle et unLezard se superposent
   hit(uneBalle, unLezard) {
-    uneBalle.destroy(); // destruction de la balle
+    uneBalle.destroy(); // Destruction de la balle
+  
+    // Réduction des points de vie du lezard touché
+    unLezard.pointsDeVie--;
+  
+    // Si les points de vie atteignent zéro, détruire le lezard
+    if (unLezard.pointsDeVie <= 0) {
+        // Marquer le lezard comme détruit
+        unLezard.isDestroyed = true;
 
-   // Réduction des points de vie du Lezard touché
-   unLezard.pointsDeVie--;
-
-   // Si les points de vie atteignent zéro, détruire le lezard
-   if (unLezard.pointsDeVie <= 0) {
-      // Arrêter le tween du lezard avant de le détruire
-      enemymove.remove(TweenData => TweenData.targets[0] === unLezard);
-      unLezard.destroy();
-      compteurMonstres--;
-   } 
+        // Destruction du lezard
+        unLezard.destroy();
+        compteurMonstres--;
+        
+    }
   }
 
   joueurGagne() {
