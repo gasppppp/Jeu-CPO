@@ -261,9 +261,9 @@ export default class niveau2 extends Phaser.Scene {
       ballesRestantes--;  // Décrémentez le nombre de balles restantes après le tir
     }
     // Si tous les monstres ont été tués
-    if (compteurMonstres === 0) {
-      this.scene.start("transition2");
-      this.scene.start("transition2");
+    if (compteurMonstres == 0) {
+      
+      this.scene.start("transition3");
       
     }
    

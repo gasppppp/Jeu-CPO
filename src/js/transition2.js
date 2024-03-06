@@ -1,4 +1,4 @@
-export default class transition1 extends Phaser.Scene {
+export default class transition2 extends Phaser.Scene {
     constructor() {
       super({ key: "transition2" });
     }

@@ -27,6 +27,7 @@ export default class niveau3 extends Phaser.Scene {
   this.load.image("img_pistolet", "src/assets/Armes/sprite_pistolet.png");
   this.load.image("img_bullet", "src/assets/Armes/balle_pistolet.png");
   this.load.tilemapTiledJSON("map3", "src/assets/assets_map3/map3.tmj");
+  this.load.image("img_porte_finale", "src/assets/assets_bienvenue/door2.png");
   //enemy
   this.load.spritesheet("demon", "src/assets/assets_map3/sprite_demon.png", {
     frameWidth: 48,
@@ -43,6 +44,10 @@ export default class niveau3 extends Phaser.Scene {
     clavier = this.input.keyboard.createCursorKeys();
     boutonFeu = this.input.keyboard.addKey('A');
     //boutonFeu = this.input.keyboard.addKey('A');
+
+    this.portefinale = this.physics.add.sprite(725, 32, "img_porte_finale");
+    
+
     this.anims.create({
       key: "anim_tourne_gauche", // key est le nom de l'animation : doit etre unique poru la scene.
       frames: this.anims.generateFrameNumbers("img_perso", { start: 3, end: 5 }), // on prend toutes les frames de img perso numerotées de 0 à 3
@@ -97,7 +102,8 @@ export default class niveau3 extends Phaser.Scene {
       "Calque_plateformes",
       [tileset1,
         tileset2,
-        tileset3],
+        tileset3,
+      ],
         0,
         0);
     // chargement du calque calque_objets
@@ -112,7 +118,7 @@ export default class niveau3 extends Phaser.Scene {
     player = this.physics.add.sprite(400, 4550, 'img_perso');
     player.setCollideWorldBounds(true);
     player.setBounce(0.2);
-    player.setSize(20,48);
+    player.setSize(27,48);
     player.direction = 'right';
     // définition des tuiles de plateformes qui sont solides
     // utilisation de la propriété estSolide
@@ -152,6 +158,7 @@ export default class niveau3 extends Phaser.Scene {
 
     //this.physics.add.collider(demon, player);
     this.physics.add.collider(demon, calque_plateformes);
+    this.physics.add.collider(this.portefinale, calque_plateformes);
     groupe_bullets = this.physics.add.group();
     this.physics.add.overlap(demon, groupe_bullets);
     this.physics.add.overlap(groupe_bullets, demon, this.hit, null, this);
@@ -248,8 +255,13 @@ export default class niveau3 extends Phaser.Scene {
       ballesRestantes--;  // Décrémentez le nombre de balles restantes après le tir
     }
     // Si tous les monstres ont été tués
-    if (compteurMonstres === 0) {
-      this.joueurGagne();  // Appeler la fonction joueurGagne ici
+    if (compteurMonstres == 0) {
+      if (Phaser.Input.Keyboard.JustDown(clavier.space) == true) {
+        if (this.physics.overlap(player, this.porte1)){
+          this.scene.start("transition3");
+        }
+      }
+       
     }
   }
 
@@ -296,10 +308,7 @@ export default class niveau3 extends Phaser.Scene {
   }
 
 
-  joueurGagne() {
-    this.scene.start('bravoScene');
-  }
-
+ 
 
   joueurPerdu() {
     joueurVivant = false;
