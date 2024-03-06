@@ -96,6 +96,7 @@ export default class niveau3 extends Phaser.Scene {
     player = this.physics.add.sprite(400, 4550, 'img_perso');
     player.setCollideWorldBounds(true);
     player.setBounce(0.2);
+    player.setSize(20,48);
     // définition des tuiles de plateformes qui sont solides
     // utilisation de la propriété estSolide
     calque_plateformes.setCollisionByProperty({ estSolide: true });
