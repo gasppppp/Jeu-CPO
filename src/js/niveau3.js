@@ -12,6 +12,7 @@ var joueurVivant = true;
 var compteurMonstres;
 var sceneFermee = false;
 var groupe_bullets;
+var son_balle;
 
 export default class niveau3 extends Phaser.Scene {
   // constructeur de la classe

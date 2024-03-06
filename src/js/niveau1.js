@@ -15,6 +15,7 @@ var joueurVivant = true;
 var compteurMonstres;
 var sceneFermee = false;
 var nombreTotalMonstres;
+var son_balle;
 
 
 
@@ -25,7 +26,7 @@ export default class niveau1 extends Phaser.Scene {
     super({
       key: "niveau1" //  ici on précise le nom de la classe en tant qu'identifiant
     });
-    
+
   }
 
 
@@ -42,6 +43,7 @@ export default class niveau1 extends Phaser.Scene {
     });
     this.load.image("img_pistolet", "src/assets/Armes/sprite_pistolet.png");
     this.load.image("img_bullet", "src/assets/Armes/balle_pistolet.png");
+    this.load.audio('gun_sound', 'src/assets/musiques/son_de_tir.mp3');
   }
 
 
@@ -53,9 +55,10 @@ export default class niveau1 extends Phaser.Scene {
     nombreTotalMonstres;
     compteurMonstres=4;
     sceneFermee = false;
-
     clavier = this.input.keyboard.createCursorKeys();
     boutonFeu = this.input.keyboard.addKey('A');
+    son_balle = this.sound.add('gun_sound');
+    son_balle.volume = 1;
     this.anims.create({
       key: "anim_tourne_gauche", // key est le nom de l'animation : doit etre unique poru la scene.
       frames: this.anims.generateFrameNumbers("img_perso", { start: 3, end: 5 }), // on prend toutes les frames de img perso numerotées de 0 à 3
@@ -316,6 +319,7 @@ export default class niveau1 extends Phaser.Scene {
     bullet.setCollideWorldBounds(false);
     bullet.body.allowGravity = false;
     bullet.setVelocity(1000 * coefDir, 0); // vitesse en x et en y
+    son_balle.play();
   }
 
 
