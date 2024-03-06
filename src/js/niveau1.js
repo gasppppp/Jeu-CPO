@@ -180,7 +180,7 @@ export default class niveau1 extends Phaser.Scene {
 
     //enemy animation
     this.anims.create({
-      key: "enemyMoves",
+      key: "enemyMoves_crabe",
       frames: this.anims.generateFrameNumbers("img_crabe", {
         start: 0,
         end: 2
@@ -215,10 +215,10 @@ export default class niveau1 extends Phaser.Scene {
       onCompleteScope: this,
   });
 
-    e1.anims.play("enemyMoves", true);
-    e2.anims.play("enemyMoves", true);
-    e3.anims.play("enemyMoves", true);
-    e4.anims.play("enemyMoves", true);
+    e1.anims.play("enemyMoves_crabe", true);
+    e2.anims.play("enemyMoves_crabe", true);
+    e3.anims.play("enemyMoves_crabe", true);
+    e4.anims.play("enemyMoves_crabe", true);
 
     // Création d'un groupe pour les pistolets
     pistolets = this.physics.add.group();

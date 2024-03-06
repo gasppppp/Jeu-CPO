@@ -161,7 +161,7 @@ export default class niveau3 extends Phaser.Scene {
 
     //enemy animation
      this.anims.create({
-      key: "enemyMoves",
+      key: "enemyMoves_demon",
       frames: this.anims.generateFrameNumbers("demon", {
         start: 6,
         end: 8
@@ -197,18 +197,18 @@ export default class niveau3 extends Phaser.Scene {
     });
 
 
-    e1.anims.play("enemyMoves", true);
-    e2.anims.play("enemyMoves", true);
-    e3.anims.play("enemyMoves", true);
-    e4.anims.play("enemyMoves", true);
-    e5.anims.play("enemyMoves", true);
-    e6.anims.play("enemyMoves", true);
-    e7.anims.play("enemyMoves", true);
-    e8.anims.play("enemyMoves", true);
-    e9.anims.play("enemyMoves", true);
-    e10.anims.play("enemyMoves", true);
-    e11.anims.play("enemyMoves", true);
-    e12.anims.play("enemyMoves", true);
+    e1.anims.play("enemyMoves_demon", true);
+    e2.anims.play("enemyMoves_demon", true);
+    e3.anims.play("enemyMoves_demon", true);
+    e4.anims.play("enemyMoves_demon", true);
+    e5.anims.play("enemyMoves_demon", true);
+    e6.anims.play("enemyMoves_demon", true);
+    e7.anims.play("enemyMoves_demon", true);
+    e8.anims.play("enemyMoves_demon", true);
+    e9.anims.play("enemyMoves_demon", true);
+    e10.anims.play("enemyMoves_demon", true);
+    e11.anims.play("enemyMoves_demon", true);
+    e12.anims.play("enemyMoves_demon", true);
 
 
     // Création d'un groupe pour les pistolets
@@ -218,7 +218,7 @@ export default class niveau3 extends Phaser.Scene {
     this.placerPistolet(672, 4416); //14 balles par pistolet
     this.placerPistolet(224, 3232);
     this.placerPistolet(416, 2464);
-    this.placerPistolet(32, 1536);
+    this.placerPistolet(128, 1536);
     this.placerPistolet(224, 896);
 
     this.physics.add.collider(pistolets, calque_plateformes);
