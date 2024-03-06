@@ -13,6 +13,7 @@ var aUnPistolet = false;
 var joueurVivant = true;
 var nombreTotalMonstres;
 var compteurMonstres;
+var sceneFermee = false;
 
 
 export default class niveau2 extends Phaser.Scene {
@@ -36,6 +37,13 @@ export default class niveau2 extends Phaser.Scene {
   }
 
   create() {
+    ballesRestantes = 8;
+    aUnPistolet = false;
+    joueurVivant = true;
+    nombreTotalMonstres;
+    compteurMonstres;
+    sceneFermee = false;
+
     clavier = this.input.keyboard.createCursorKeys();
     boutonFeu = this.input.keyboard.addKey('A');
     this.anims.create({
@@ -109,10 +117,7 @@ export default class niveau2 extends Phaser.Scene {
     );
     player = this.physics.add.sprite(50, 350, 'img_perso');
     player.setCollideWorldBounds(true);
-   
-    //on acvite l'écouteur sur les collisions avec le monde
     player.body.onWorldBounds = true; 
-    
     // on met en place l'écouteur sur les bornes du monde
     player.body.world.on(
     "worldbounds", // evenement surveillé
@@ -169,9 +174,9 @@ export default class niveau2 extends Phaser.Scene {
     //this.physics.add.collider(lezard, player);
     this.physics.add.collider(lezard, calque_plateformes);
     groupe_bullets = this.physics.add.group();
-    this.physics.add.collider(lezard, groupe_bullets);
+    this.physics.add.overlap(lezard, groupe_bullets);
     this.physics.add.overlap(groupe_bullets, lezard, this.hit, null, this);
-    
+    this.physics.add.overlap(player, lezard, this.joueurPerdu, null, this);  // Appelez la fonction joueurPerdu ici
 
     //enemy animation
      this.anims.create({
@@ -211,7 +216,7 @@ export default class niveau2 extends Phaser.Scene {
      this.placerPistolet(295, 200); //8 balles par pistolet
      this.placerPistolet(1344, 96);
      this.placerPistolet(2016, 576);
-     this.placerPistolet(3512, 192);
+     this.placerPistolet(3012, 192);
  
      this.physics.add.collider(pistolets, calque_plateformes);
  
@@ -247,6 +252,9 @@ export default class niveau2 extends Phaser.Scene {
   }
 
   update() {
+    if (sceneFermee) {
+      return;
+    }
     if (clavier.left.isDown) {
       player.direction = 'left';
       player.setVelocityX(-160);
@@ -266,13 +274,11 @@ export default class niveau2 extends Phaser.Scene {
       this.tirer(player);
       ballesRestantes--;  // Décrémentez le nombre de balles restantes après le tir
     }
-    if (joueurVivant) {
-     
-      // Si les hitbox du personnage et d'un lezard se touchent
-      this.physics.world.overlap(player, lezard, this.joueurPerdu, null, this);
-
-      // ...
+    // Si tous les monstres ont été tués
+    if (compteurMonstres === 0) {
+      this.joueurGagne();  // Appeler la fonction joueurGagne ici
     }
+   
   }
 
   placerPistolet(x, y) {
@@ -329,15 +335,15 @@ export default class niveau2 extends Phaser.Scene {
     joueurVivant = false;
     player.setTint(0xff0000);  // Colorer en rouge
     player.setVelocity(0, 0);  // Arrêter le mouvement
+    sceneFermee = true;
     this.time.delayedCall(3000, this.recommencerNiveau, [], this);  // Recommencez après 3 secondes
   }
 
   recommencerNiveau() {
-    joueurVivant = true;  // Réinitialisez le statut du joueur
     player.clearTint();  // Réinitialisez la teinte du joueur
     player.setVelocity(0, 0);  // Réinitialisez la vélocité du joueur
-    player.aUnPistolet=false;
-    player.ballesRestantes==0;
+    sceneFermee = false;
+    joueurVivant = true;  // Réinitialisez le statut du joueur
     this.scene.restart();  // Redémarrez la scène
   }
 
