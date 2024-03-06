@@ -1,3 +1,5 @@
+import Phaser from "phaser";
+
 var enemymove
 var clavier;
 var player;
@@ -15,6 +17,8 @@ var joueurVivant = true;
 var nombreTotalMonstres;
 var compteurMonstres;
 var sceneFermee = false;
+
+
 
 export default class niveau1 extends Phaser.Scene {
 
@@ -48,7 +52,7 @@ export default class niveau1 extends Phaser.Scene {
     aUnPistolet = false;
     joueurVivant = true;
     nombreTotalMonstres;
-    compteurMonstres;
+    compteurMonstres=4;
     sceneFermee = false;
 
     clavier = this.input.keyboard.createCursorKeys();
@@ -285,13 +289,12 @@ export default class niveau1 extends Phaser.Scene {
       ballesRestantes--;  // Décrémentez le nombre de balles restantes après le tir
     }
     // Si tous les monstres ont été tués
-    if (compteurMonstres === 0) {
-      this.joueurGagne();  // Appeler la fonction joueurGagne ici
+    if (compteurMonstres == 0) {
+      console.log("compteur 0");
+      this.scene.start("transition1");
     }
-    // Si les hitbox du personnage et d'un crabe se touchent
-    if (joueurVivant) {
-      // Vérifier la collision avec les crabes
-    }
+    
+    
   }
 
   placerPistolet(x, y) {
@@ -334,8 +337,11 @@ export default class niveau1 extends Phaser.Scene {
 
         // Destruction du crabe
         unCrabe.destroy();
+        compteurMonstres--;
+        
     }
 }
+
 
 
   joueurGagne() {

@@ -1,3 +1,4 @@
+
 var clavier;
 var player;
 var boutonFeu;
@@ -11,8 +12,7 @@ var groupe_lezards;
 var ballesRestantes = 8;
 var aUnPistolet = false;
 var joueurVivant = true;
-var nombreTotalMonstres;
-var compteurMonstres;
+var compteurMonstres=8;
 var sceneFermee = false;
 
 
@@ -40,8 +40,7 @@ export default class niveau2 extends Phaser.Scene {
     ballesRestantes = 8;
     aUnPistolet = false;
     joueurVivant = true;
-    nombreTotalMonstres;
-    compteurMonstres;
+    compteurMonstres=8;
     sceneFermee = false;
 
     clavier = this.input.keyboard.createCursorKeys();
@@ -160,8 +159,8 @@ export default class niveau2 extends Phaser.Scene {
     var e8 = lezard.create(2368, 500, "lezard");
    
    
-    nombreTotalMonstres = lezard.getChildren().length;
-    compteurMonstres = nombreTotalMonstres;
+    compteurMonstres  = lezard.getChildren().length;
+   
 
     // Ajout de la propriété pointsDeVie à chaque lezard
     lezard.getChildren().forEach((lezard) => {
@@ -220,34 +219,7 @@ export default class niveau2 extends Phaser.Scene {
  
      this.physics.add.collider(pistolets, calque_plateformes);
  
-     var bravoScene = new Phaser.Scene('bravoScene');
- 
-     bravoScene.create = function () {
-     // Ajoutez ici le code pour afficher les règles du jeu dans la nouvelle scène
- 
-     // Fond bleu foncé
-     var fond = this.add.rectangle(
-         this.cameras.main.width / 2,
-         this.cameras.main.height / 2,
-         this.cameras.main.width,
-         this.cameras.main.height,
-         0x000033
-     );
-     fond.setOrigin(0.5);
- 
-     // Texte du bravo
-     var bravoTexte = this.add.text(
-         this.cameras.main.width / 2,
-         this.cameras.main.height / 2 - 50,
-        "Bravo ! Vous avez terminé le niveau 1.\nRendez-vous au niveau 2 !",{
-             font: "bold 24px Arial",
-             fill: "#ffffff",
-             stroke: "null",
-             align: 'center'
-         }
-     );
-     reglesTexte.setOrigin(0.5);
-   }
+     
     
   }
 
@@ -276,7 +248,8 @@ export default class niveau2 extends Phaser.Scene {
     }
     // Si tous les monstres ont été tués
     if (compteurMonstres === 0) {
-      this.joueurGagne();  // Appeler la fonction joueurGagne ici
+      this.scene.start('bravoScene');
+      
     }
    
   }
@@ -299,12 +272,12 @@ export default class niveau2 extends Phaser.Scene {
     // on crée la balle a coté du joueur
     var bullet = groupe_bullets.create(player.x + (25 * coefDir), player.y - 4, 'img_bullet');
     // parametres physiques de la balle.
-    bullet.setCollideWorldBounds(true);
+    bullet.setCollideWorldBounds(false);
     bullet.body.allowGravity = false;
     bullet.setVelocity(1000 * coefDir, 0); // vitesse en x et en y
   }
 
-   // fonction déclenchée lorsque uneBalle et unLezard se superposent
+  // fonction déclenchée lorsque uneBalle et unLezard se superposent
   hit(uneBalle, unLezard) {
     uneBalle.destroy(); // destruction de la balle
 
@@ -316,18 +289,14 @@ export default class niveau2 extends Phaser.Scene {
       // Arrêter le tween du lezard avant de le détruire
       enemymove.remove(TweenData => TweenData.targets[0] === unLezard);
       unLezard.destroy();
-   } else {
-      // Si le lezard est touché mais pas encore détruit, arrêtez sa vélocité
-      if (unLezard.active) {
-          unLezard.setVelocity(0, 0);
-      }
-   }
+      compteurMonstres--;
+   } 
   }
 
   joueurGagne() {
     this.scene.start('bravoScene');
-    // Puis changez de scène pour revenir à l'écran d'accueil où le joueur peut choisir la deuxième porte pour aller dans le niveau 2
-    this.scene.start("ecranAccueil");
+    this.scene.start('niveau2')
+    
   }
 
 

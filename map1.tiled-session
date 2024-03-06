@@ -3,13 +3,13 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "src/assets/assets_map1/map1.tmx",
+    "activeFile": "src/assets/assets_map2/map2.tmx",
     "expandedProjectPaths": [
     ],
     "fileStates": {
         "": {
             "scaleInDock": 1,
-            "scaleInEditor": 0.75
+            "scaleInEditor": 1
         },
         "#map3": {
             "scaleInDock": 0.5,
@@ -88,8 +88,8 @@
             "scale": 0.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 2639,
-                "y": 498
+                "x": 2637,
+                "y": 496
             }
         },
         "src/assets/assets_map2/map2.tmx#map2": {
@@ -101,7 +101,7 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 344.6666666666667,
-                "y": 1228.6666666666665
+                "y": 4478.666666666666
             }
         },
         "src/assets/assets_map3/map3.tmx#map3": {
@@ -146,17 +146,16 @@
     "last.imagePath": "C:/Users/Gaspard Rouault/Documents/Professionnel/EPF/CPO/Jeu CPO/src/assets/assets_map3",
     "map.lastUsedExportFilter": "Fichiers de carte JSON (*.tmj *.json)",
     "openFiles": [
-        "src/assets/assets_map1/map1.tmj",
+        "src/assets/assets_map1/map1.tmx",
         "src/assets/assets_map2/map2.tmx",
-        "src/assets/assets_map3/map3.tmx",
-        "src/assets/assets_map1/map1.tmx"
+        "src/assets/assets_map3/map3.tmx"
     ],
     "project": "map1.tiled-project",
     "recentFiles": [
         "src/assets/assets_map1/map1.tmx",
-        "src/assets/assets_map1/map1.tmj",
-        "src/assets/assets_map2/map2.tmx",
         "src/assets/assets_map3/map3.tmx",
+        "src/assets/assets_map2/map2.tmx",
+        "src/assets/assets_map1/map1.tmj",
         "src/assets/assets_map2/map2.tmj",
         "map1.tmx",
         "src/map1.tmx"
