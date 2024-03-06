@@ -166,11 +166,11 @@ reglesBouton.on('pointerdown', function () {
   this.scene.launch('reglesScene'); // 'reglesScene' est le nom de la nouvelle scène
 }, this);
 
-  // Créez une nouvelle scène pour les félicitations
-var bravoScene = new Phaser.Scene('bravoScene');
+  // Créez une nouvelle scène pour les règles du jeu
+var reglesScene = new Phaser.Scene('reglesScene');
 
-bravoScene.create = function () {
-    // Ajoutez ici le code pour afficher les félicitations dans la nouvelle scène
+reglesScene.create = function () {
+    // Ajoutez ici le code pour afficher les règles du jeu dans la nouvelle scène
 
     // Fond bleu foncé
     var fond = this.add.rectangle(
@@ -182,11 +182,11 @@ bravoScene.create = function () {
     );
     fond.setOrigin(0.5);
 
-    // Texte de félicitations
-    var felicitationsTexte = this.add.text(
+    // Texte des règles
+    var reglesTexte = this.add.text(
         this.cameras.main.width / 2,
         this.cameras.main.height / 2 - 50,
-        "Bravo ! Vous avez tué tous les monstres.\nVous pouvez passer au niveau suivant !",
+        "Règles du jeu\n\nVous êtes Dorelys, une petite fille née hier.\nVous avez perdu vos parents, dommage pour vous !\nIl vous faut donc traverser les trois niveaux pour\nespérer les revoir. Attention, des monstres sont là\npour vous bouffer donc équipez-vous d'une\narme dès que vous le pouvez !",
         {
             font: "bold 24px Arial",
             fill: "#ffffff",
@@ -194,7 +194,7 @@ bravoScene.create = function () {
             align: 'center'
         }
     );
-    felicitationsTexte.setOrigin(0.5);
+    reglesTexte.setOrigin(0.5);
 
 
 // Ajouter un bouton "Fermer" pour revenir à la scène principale
