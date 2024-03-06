@@ -172,7 +172,7 @@ export default class niveau1 extends Phaser.Scene {
 
     this.physics.add.collider(crabe, calque_plateformes);
     groupe_bullets = this.physics.add.group();
-    this.physics.add.collider(crabe, groupe_bullets);
+    this.physics.add.overlap(crabe, groupe_bullets);
     this.physics.add.overlap(groupe_bullets, crabe, this.hit, null, this);
     this.physics.add.overlap(player, crabe, this.joueurPerdu, null, this);  // Appelez la fonction joueurPerdu ici
 
@@ -189,7 +189,7 @@ export default class niveau1 extends Phaser.Scene {
     });
 
     enemymove = this.tweens.add({
-      targets: crabe.getChildren(),
+      targets: crabe.getChildren().filter(c => !c.isDestroyed), // Appliquer le tween uniquement aux crabes non détruits
       ease: "Linear",
       duration: 3000,
       yoyo: true,
@@ -197,8 +197,22 @@ export default class niveau1 extends Phaser.Scene {
       delay: 0,
       hold: 0,
       repeatDelay: 0,
-      repeat: -1
-    });
+      repeat: -1,
+      onComplete: function (tween, targets) {
+          // Réinitialiser le tween pour chaque crabe à la fin du tween
+          targets.forEach(crabe => {
+              this.tweens.add({
+                  targets: crabe,
+                  ease: "Linear",
+                  duration: 3000,
+                  yoyo: true,
+                  x: `+=100`,
+                  repeat: -1,
+              });
+          });
+      },
+      onCompleteScope: this,
+  });
     e1.anims.play("enemyMoves", true);
     e2.anims.play("enemyMoves", true);
     e3.anims.play("enemyMoves", true);
@@ -306,24 +320,22 @@ export default class niveau1 extends Phaser.Scene {
 
   // fonction déclenchée lorsque uneBalle et unCrabe se superposent
   hit(uneBalle, unCrabe) {
-    uneBalle.destroy(); // destruction de la balle
+    uneBalle.destroy(); // Destruction de la balle
 
     // Réduction des points de vie du crabe touché
     unCrabe.pointsDeVie--;
 
     // Si les points de vie atteignent zéro, détruire le crabe
     if (unCrabe.pointsDeVie <= 0) {
-      // Arrêter le tween du crabe avant de le détruire
-      enemymove.remove(TweenData => TweenData.targets[0] === unCrabe);
-      unCrabe.destroy();
-    } else {
-      // Si le crabe est touché mais pas encore détruit, arrêtez sa vélocité
-      if (unCrabe.active) {
-        unCrabe.setVelocity(0, 0);
-      }
-    }
-  }
+        // Marquer le crabe comme détruit
+        unCrabe.isDestroyed = true;
+        // Supprimer le tween existant du crabe
+        this.tweens.killTweensOf(unCrabe);
 
+        // Destruction du crabe
+        unCrabe.destroy();
+    }
+}
 
 
   joueurGagne() {
