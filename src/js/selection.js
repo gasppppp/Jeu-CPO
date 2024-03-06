@@ -35,13 +35,17 @@ export default class selection extends Phaser.Scene {
     this.load.image("img_porte1", "src/assets/assets_bienvenue/door1.png");
     this.load.image("img_porte2", "src/assets/assets_bienvenue/door2.png");
     this.load.image("img_porte3", "src/assets/assets_bienvenue/door3.png");
+    this.load.audio('musique_background', 'src/assets/musiques/zoo_kaaris.mp3');   
   }
 
   
   create() {
       fct.doNothing();
       fct.doAlsoNothing();
-
+      var musique_de_fond;
+      musique_de_fond = this.sound.add('musique_background');
+      musique_de_fond.volume = 0.2;
+      musique_de_fond.play();  
     /*************************************
      *  CREATION DU MONDE + PLATEFORMES  *
      *************************************/
@@ -80,6 +84,7 @@ export default class selection extends Phaser.Scene {
     player.direction = 'right';  
     player.setBounce(0.2); // on donne un petit coefficient de rebond
     player.setCollideWorldBounds(true); // le player se cognera contre les bords du monde
+    
     player.setSize(20,48);
     /***************************
      *  CREATION DES ANIMATIONS *
@@ -257,7 +262,6 @@ this.scene.add('reglesScene', reglesScene);
     if (clavier.up.isDown && player.body.touching.down) {
       player.setVelocityY(-330);
     }
-
     if (Phaser.Input.Keyboard.JustDown(clavier.space) == true) {
       if (this.physics.overlap(player, this.porte1))
         this.scene.switch("niveau1");

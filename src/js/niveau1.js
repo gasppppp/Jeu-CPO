@@ -25,6 +25,7 @@ export default class niveau1 extends Phaser.Scene {
     super({
       key: "niveau1" //  ici on précise le nom de la classe en tant qu'identifiant
     });
+    
   }
 
 
