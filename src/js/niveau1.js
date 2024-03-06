@@ -14,6 +14,7 @@ var aUnPistolet = false;
 var joueurVivant = true;
 var nombreTotalMonstres;
 var compteurMonstres;
+var sceneFermee = false;
 
 export default class niveau1 extends Phaser.Scene {
 
@@ -43,6 +44,13 @@ export default class niveau1 extends Phaser.Scene {
 
 
   create() {
+    ballesRestantes = 5;
+    aUnPistolet = false;
+    joueurVivant = true;
+    nombreTotalMonstres;
+    compteurMonstres;
+    sceneFermee = false;
+
     clavier = this.input.keyboard.createCursorKeys();
     boutonFeu = this.input.keyboard.addKey('A');
     this.anims.create({
@@ -112,8 +120,24 @@ export default class niveau1 extends Phaser.Scene {
     );
     player = this.physics.add.sprite(200, 500, 'img_perso');
     player.setCollideWorldBounds(true);
+    player.body.onWorldBounds = true;
     player.setBounce(0.2);
+    player.body.world.on(
+      "worldbounds", // evenement surveillé
+      function (body, up, down, left, right) {
+        // on verifie si la hitbox qui est rentrée en collision est celle du player,
+        // et si la collision a eu lieu sur le bord inférieur du player
+        if (body.gameObject === player && down == true) {
+          // si oui : GAME OVER on arrete la physique et on colorie le personnage en rouge
+          this.physics.pause();
+          player.setTint(0xff0000);
+          this.joueurPerdu();
+        }
+      },
+      this
+    );
     player.direction = 'right';
+    player.setSize(20, 40);
     // définition des tuiles de plateformes qui sont solides
     // utilisation de la propriété estSolide
     calque_plateformes.setCollisionByProperty({ estSolide: true });
@@ -142,7 +166,6 @@ export default class niveau1 extends Phaser.Scene {
     crabe.getChildren().forEach((crabe) => {
       crabe.pointsDeVie = 2;
     });
-
     crabe.getChildren().forEach((crabe) => {
       crabe.setCollideWorldBounds(true);
     });
@@ -151,6 +174,8 @@ export default class niveau1 extends Phaser.Scene {
     groupe_bullets = this.physics.add.group();
     this.physics.add.collider(crabe, groupe_bullets);
     this.physics.add.overlap(groupe_bullets, crabe, this.hit, null, this);
+    this.physics.add.overlap(player, crabe, this.joueurPerdu, null, this);  // Appelez la fonction joueurPerdu ici
+
 
     //enemy animation
     this.anims.create({
@@ -191,37 +216,41 @@ export default class niveau1 extends Phaser.Scene {
 
     var bravoScene = new Phaser.Scene('bravoScene');
 
-bravoScene.create = function () {
-    // Ajoutez ici le code pour afficher les règles du jeu dans la nouvelle scène
+    bravoScene.create = function () {
+      // Ajoutez ici le code pour afficher les règles du jeu dans la nouvelle scène
 
-    // Fond bleu foncé
-    var fond = this.add.rectangle(
+      // Fond bleu foncé
+      var fond = this.add.rectangle(
         this.cameras.main.width / 2,
         this.cameras.main.height / 2,
         this.cameras.main.width,
         this.cameras.main.height,
         0x000033
-    );
-    fond.setOrigin(0.5);
+      );
+      fond.setOrigin(0.5);
 
-    // Texte du bravo
-    var bravoTexte = this.add.text(
+      // Texte du bravo
+      var bravoTexte = this.add.text(
         this.cameras.main.width / 2,
         this.cameras.main.height / 2 - 50,
-"Bravo ! Vous avez terminé le niveau 1.\nRendez-vous au niveau 2 !",{
-            font: "bold 24px Arial",
-            fill: "#ffffff",
-            stroke: "null",
-            align: 'center'
-        }
-    );
-    reglesTexte.setOrigin(0.5);
+        "Bravo ! Vous avez terminé le niveau 1.\nRendez-vous au niveau 2 !", {
+        font: "bold 24px Arial",
+        fill: "#ffffff",
+        stroke: "null",
+        align: 'center'
+      }
+      );
+      reglesTexte.setOrigin(0.5);
+    }
   }
-}
 
 
 
   update() {
+    // Si la scène est figée, ne permettez pas au joueur de faire des actions
+    if (sceneFermee) {
+      return;
+    }
     if (clavier.left.isDown) {
       player.direction = 'left';
       player.setVelocityX(-160);
@@ -241,16 +270,10 @@ bravoScene.create = function () {
       this.tirer(player);
       ballesRestantes--;  // Décrémentez le nombre de balles restantes après le tir
     }
+
+    // Si les hitbox du personnage et d'un crabe se touchent
     if (joueurVivant) {
-      // Si la hitbox du sprite touche le bord inférieur du monde
-      if (player.y >= this.physics.world.bounds.height - 48) {
-        this.joueurPerdu();  // Appelez la fonction joueurPerdu ici
-      }
-
-      // Si les hitbox du personnage et d'un crabe se touchent
-      this.physics.world.overlap(player, crabe, this.joueurPerdu, null, this);
-
-      // ...
+      // Vérifier la collision avec les crabes
     }
   }
 
@@ -279,24 +302,24 @@ bravoScene.create = function () {
 
 
   // fonction déclenchée lorsque uneBalle et unCrabe se superposent
-hit(uneBalle, unCrabe) {
-  uneBalle.destroy(); // destruction de la balle
+  hit(uneBalle, unCrabe) {
+    uneBalle.destroy(); // destruction de la balle
 
-  // Réduction des points de vie du crabe touché
-  unCrabe.pointsDeVie--;
+    // Réduction des points de vie du crabe touché
+    unCrabe.pointsDeVie--;
 
-  // Si les points de vie atteignent zéro, détruire le crabe
-  if (unCrabe.pointsDeVie <= 0) {
+    // Si les points de vie atteignent zéro, détruire le crabe
+    if (unCrabe.pointsDeVie <= 0) {
       // Arrêter le tween du crabe avant de le détruire
       enemymove.remove(TweenData => TweenData.targets[0] === unCrabe);
       unCrabe.destroy();
-  } else {
+    } else {
       // Si le crabe est touché mais pas encore détruit, arrêtez sa vélocité
       if (unCrabe.active) {
-          unCrabe.setVelocity(0, 0);
+        unCrabe.setVelocity(0, 0);
       }
+    }
   }
-}
 
 
 
@@ -311,13 +334,16 @@ hit(uneBalle, unCrabe) {
     joueurVivant = false;
     player.setTint(0xff0000);  // Colorer en rouge
     player.setVelocity(0, 0);  // Arrêter le mouvement
+    sceneFermee = true;
     this.time.delayedCall(3000, this.recommencerNiveau, [], this);  // Recommencez après 3 secondes
   }
 
   recommencerNiveau() {
-    joueurVivant = true;  // Réinitialisez le statut du joueur
     player.clearTint();  // Réinitialisez la teinte du joueur
     player.setVelocity(0, 0);  // Réinitialisez la vélocité du joueur
+    sceneFermee = false;
+    joueurVivant = true;  // Réinitialisez le statut du joueur
+
     this.scene.restart();  // Redémarrez la scène
   }
 

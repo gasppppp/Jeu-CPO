@@ -80,7 +80,7 @@ export default class selection extends Phaser.Scene {
     player.direction = 'right';  
     player.setBounce(0.2); // on donne un petit coefficient de rebond
     player.setCollideWorldBounds(true); // le player se cognera contre les bords du monde
-
+    player.setSize(20,40);
     /***************************
      *  CREATION DES ANIMATIONS *
      ****************************/
@@ -126,7 +126,7 @@ export default class selection extends Phaser.Scene {
     bienvenueTexte = this.add.text(
       this.cameras.main.width / 2,
       50,
-      "Bienvenue dans l'Epopée de Dorelys !",
+      "Bienvenue dans l'épopée de Dorelys !",
       {
           font: "bold 36px Arial",
           fill: "#ffffff",
@@ -166,11 +166,11 @@ reglesBouton.on('pointerdown', function () {
   this.scene.launch('reglesScene'); // 'reglesScene' est le nom de la nouvelle scène
 }, this);
 
-  // Créez une nouvelle scène pour les règles du jeu
-var reglesScene = new Phaser.Scene('reglesScene');
+  // Créez une nouvelle scène pour les félicitations
+var bravoScene = new Phaser.Scene('bravoScene');
 
-reglesScene.create = function () {
-    // Ajoutez ici le code pour afficher les règles du jeu dans la nouvelle scène
+bravoScene.create = function () {
+    // Ajoutez ici le code pour afficher les félicitations dans la nouvelle scène
 
     // Fond bleu foncé
     var fond = this.add.rectangle(
@@ -182,11 +182,11 @@ reglesScene.create = function () {
     );
     fond.setOrigin(0.5);
 
-    // Texte des règles
-    var reglesTexte = this.add.text(
+    // Texte de félicitations
+    var felicitationsTexte = this.add.text(
         this.cameras.main.width / 2,
         this.cameras.main.height / 2 - 50,
-        "Règles du jeu\n\nVous êtes Dorelys, une petite fille née hier.\nVous avez perdu vos parents, dommage pour vous !\nIl vous faut donc traverser les trois niveaux pour\nespérer les revoir. Attention, des monstres sont là\npour vous bouffer donc équipez-vous d'une\narme dès que vous le pouvez !",
+        "Bravo ! Vous avez tué tous les monstres.\nVous pouvez passer au niveau suivant !",
         {
             font: "bold 24px Arial",
             fill: "#ffffff",
@@ -194,7 +194,7 @@ reglesScene.create = function () {
             align: 'center'
         }
     );
-    reglesTexte.setOrigin(0.5);
+    felicitationsTexte.setOrigin(0.5);
 
 
 // Ajouter un bouton "Fermer" pour revenir à la scène principale
