@@ -1,48 +1,21 @@
+// Créez une nouvelle classe de scène pour la transition
 export default class transition3 extends Phaser.Scene {
     constructor() {
-      super({ key: "transition3" });
+        super({ key: 'transition3' });
     }
-    //on charge les images
-    preload() {
-      
-    }
-  
+
     create() {
-       // Créez une nouvelle scène pour les règles du jeu
-var reglesScene = new Phaser.Scene('fin');
+        // Ajoutez un rectangle avec un fond bleu plus clair
+        this.add.rectangle(0, 0, this.game.config.width, this.game.config.height, 0xadd8e6).setOrigin(0);
 
-reglesScene.create = function () {
-
-    // Fond bleu foncé
-    var fond = this.add.rectangle(
-        this.cameras.main.width / 2,
-        this.cameras.main.height / 2,
-        this.cameras.main.width,
-        this.cameras.main.height,
-        0x000033
-    );
-    fond.setOrigin(0.5);
-
-    // Texte des règles
-    var reglesTexte = this.add.text(
-        this.cameras.main.width / 2,
-        this.cameras.main.height / 2 - 50,
-        "Félicitations !!! T'as fini le jeu comme NI !",
-        {
-            font: "bold 24px Arial",
-            fill: "#ffffff",
-            stroke: "null",
+        // Ajoutez le texte "Félicitations" avec une police de style jeu vidéo
+        this.add.text(this.game.config.width / 2, this.game.config.height / 2, 'Félicitations, vous avez atteint l"étoile après avoir terrassé tout les monstres !', {
+            fontFamily: 'Arial, sans-serif', // Remplacez par la police de votre choix
+            fontSize: '48px',
+            fill: '#ffffff',
+            stroke: '#000000',
+            strokeThickness: 4,
             align: 'center'
-        }
-    );
-    reglesTexte.setOrigin(0.5);
+        }).setOrigin(0.5);
     }
-  
-    // Ajoutez la nouvelle scène au gestionnaire de scènes de Phaser
-    this.scene.add('fin', reglesScene);
-    }
-  
-    update() {
-      
-    }
-  }
+}

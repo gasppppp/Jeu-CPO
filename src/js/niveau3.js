@@ -45,7 +45,7 @@ export default class niveau3 extends Phaser.Scene {
     boutonFeu = this.input.keyboard.addKey('A');
     //boutonFeu = this.input.keyboard.addKey('A');
 
-    this.portefinale = this.physics.add.sprite(725, 32, "img_porte_finale");
+    
     
 
     this.anims.create({
@@ -158,7 +158,7 @@ export default class niveau3 extends Phaser.Scene {
 
     //this.physics.add.collider(demon, player);
     this.physics.add.collider(demon, calque_plateformes);
-    this.physics.add.collider(this.portefinale, calque_plateformes);
+    
     groupe_bullets = this.physics.add.group();
     this.physics.add.overlap(demon, groupe_bullets);
     this.physics.add.overlap(groupe_bullets, demon, this.hit, null, this);
@@ -255,13 +255,8 @@ export default class niveau3 extends Phaser.Scene {
       ballesRestantes--;  // Décrémentez le nombre de balles restantes après le tir
     }
     // Si tous les monstres ont été tués
-    if (compteurMonstres == 0) {
-      if (Phaser.Input.Keyboard.JustDown(clavier.space) == true) {
-        if (this.physics.overlap(player, this.porte1)){
-          this.scene.start("transition3");
-        }
-      }
-       
+    if (compteurMonstres == 0 && Phaser.Math.Distance.Between(player.x, player.y, 704, 40) < 20) {
+      this.scene.start("transition3");
     }
   }
 
