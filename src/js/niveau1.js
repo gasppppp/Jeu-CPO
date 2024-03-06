@@ -2,11 +2,18 @@ var enemymove
 var clavier;
 var player;
 var boutonFeu;
+var groupe_bullets;
 var arme;
 var enemyMove;
 var crabe;
 var calque_plateformes;
 var pistolets;
+var groupe_crabes;
+var ballesRestantes = 5;
+var aUnPistolet = false;
+var joueurVivant = true;
+var nombreTotalMonstres;
+var compteurMonstres;
 
 export default class niveau1 extends Phaser.Scene {
 
@@ -21,6 +28,10 @@ export default class niveau1 extends Phaser.Scene {
   preload() {
     this.load.image("tuiles_de_jeu", "src/assets/assets_map1/tileset_grotte.png");
     this.load.tilemapTiledJSON("map1", "src/assets/assets_map1/map1.tmj");
+    this.load.spritesheet("img_dude_arme", "src/assets/dude_avec_pistolet.png", {
+      frameWidth: 48,
+      frameHeight: 48
+    });
     this.load.spritesheet("img_crabe", "src/assets/assets_map1/sprite_crabe.png", {
       frameWidth: 48,
       frameHeight: 48
@@ -116,13 +127,30 @@ export default class niveau1 extends Phaser.Scene {
     // ancrage de la caméra sur le joueur
     this.cameras.main.startFollow(player);
 
+
+
     crabe = this.physics.add.group();
     var e1 = crabe.create(498, 300, "img_crabe");
     var e2 = crabe.create(1625, 448, "img_crabe");
     var e3 = crabe.create(2233, 256, "img_crabe");
     var e4 = crabe.create(2944, 592, "img_crabe");
 
+    nombreTotalMonstres = crabe.getChildren().length;
+    compteurMonstres = nombreTotalMonstres;
+
+    // Ajout de la propriété pointsDeVie à chaque crabe
+    crabe.getChildren().forEach((crabe) => {
+      crabe.pointsDeVie = 2;
+    });
+
+    crabe.getChildren().forEach((crabe) => {
+      crabe.setCollideWorldBounds(true);
+    });
+
     this.physics.add.collider(crabe, calque_plateformes);
+    groupe_bullets = this.physics.add.group();
+    this.physics.add.collider(crabe, groupe_bullets);
+    this.physics.add.overlap(groupe_bullets, crabe, this.hit, null, this);
 
     //enemy animation
     this.anims.create({
@@ -155,12 +183,41 @@ export default class niveau1 extends Phaser.Scene {
     pistolets = this.physics.add.group();
 
     // Ajout de trois pistolets à des positions spécifiques sur la carte
-    this.placerPistolet(295, 200);
+    this.placerPistolet(295, 200); //5 balles par pistolet
     this.placerPistolet(820, 400);
     this.placerPistolet(3072, 224);
 
     this.physics.add.collider(pistolets, calque_plateformes);
+
+    var bravoScene = new Phaser.Scene('bravoScene');
+
+bravoScene.create = function () {
+    // Ajoutez ici le code pour afficher les règles du jeu dans la nouvelle scène
+
+    // Fond bleu foncé
+    var fond = this.add.rectangle(
+        this.cameras.main.width / 2,
+        this.cameras.main.height / 2,
+        this.cameras.main.width,
+        this.cameras.main.height,
+        0x000033
+    );
+    fond.setOrigin(0.5);
+
+    // Texte du bravo
+    var bravoTexte = this.add.text(
+        this.cameras.main.width / 2,
+        this.cameras.main.height / 2 - 50,
+"Bravo ! Vous avez terminé le niveau 1.\nRendez-vous au niveau 2 !",{
+            font: "bold 24px Arial",
+            fill: "#ffffff",
+            stroke: "null",
+            align: 'center'
+        }
+    );
+    reglesTexte.setOrigin(0.5);
   }
+}
 
 
 
@@ -180,45 +237,90 @@ export default class niveau1 extends Phaser.Scene {
     if (clavier.up.isDown && player.body.blocked.down) {
       player.setVelocityY(-330);
     }
+    if (Phaser.Input.Keyboard.JustDown(boutonFeu) && ballesRestantes > 0 && aUnPistolet == true) {
+      this.tirer(player);
+      ballesRestantes--;  // Décrémentez le nombre de balles restantes après le tir
+    }
+    if (joueurVivant) {
+      // Si la hitbox du sprite touche le bord inférieur du monde
+      if (player.y >= this.physics.world.bounds.height - 48) {
+        this.joueurPerdu();  // Appelez la fonction joueurPerdu ici
+      }
+
+      // Si les hitbox du personnage et d'un crabe se touchent
+      this.physics.world.overlap(player, crabe, this.joueurPerdu, null, this);
+
+      // ...
+    }
   }
 
   placerPistolet(x, y) {
     const pistolet = pistolets.create(x, y, 'img_pistolet');
     pistolet.setCollideWorldBounds(true);
     this.physics.add.overlap(player, pistolet, this.recupererPistolet, null, this);
+  }
+
+  recupererPistolet(player, pistolet) {
+    pistolet.destroy();  // Ramasser le pistolet (à adapter selon votre logique)
+    aUnPistolet = true;  // Activer le pistolet
+    ballesRestantes = 5;  // Réinitialiser le nombre de balles restantes
+  }
+
+  tirer(player) {
+    var coefDir;
+    if (player.direction == 'left') { coefDir = -1; } else { coefDir = 1 }
+    // on crée la balle a coté du joueur
+    var bullet = groupe_bullets.create(player.x + (25 * coefDir), player.y - 4, 'img_bullet');
+    // parametres physiques de la balle.
+    bullet.setCollideWorldBounds(true);
+    bullet.body.allowGravity = false;
+    bullet.setVelocity(1000 * coefDir, 0); // vitesse en x et en y
+  }
+
+
+  // fonction déclenchée lorsque uneBalle et unCrabe se superposent
+hit(uneBalle, unCrabe) {
+  uneBalle.destroy(); // destruction de la balle
+
+  // Réduction des points de vie du crabe touché
+  unCrabe.pointsDeVie--;
+
+  // Si les points de vie atteignent zéro, détruire le crabe
+  if (unCrabe.pointsDeVie <= 0) {
+      // Arrêter le tween du crabe avant de le détruire
+      enemymove.remove(TweenData => TweenData.targets[0] === unCrabe);
+      unCrabe.destroy();
+  } else {
+      // Si le crabe est touché mais pas encore détruit, arrêtez sa vélocité
+      if (unCrabe.active) {
+          unCrabe.setVelocity(0, 0);
+      }
+  }
 }
 
-recupererPistolet(player, pistolet) {
-  // Ajoutez ici le code pour gérer la récupération du pistolet
-  pistolet.disableBody(true, true);
 
-  // Mettez à jour l'image du joueur pour montrer qu'il porte l'arme
-  player.setTexture('img_perso_avec_pistolet');
 
-  // Ajoutez une propriété au joueur pour indiquer qu'il a l'arme
-  player.aLePistolet = true;
+  joueurGagne() {
+    this.scene.start('bravoScene');
+    // Puis changez de scène pour revenir à l'écran d'accueil où le joueur peut choisir la deuxième porte pour aller dans le niveau 2
+    this.scene.start("ecranAccueil");
+  }
+
+
+  joueurPerdu() {
+    joueurVivant = false;
+    player.setTint(0xff0000);  // Colorer en rouge
+    player.setVelocity(0, 0);  // Arrêter le mouvement
+    this.time.delayedCall(3000, this.recommencerNiveau, [], this);  // Recommencez après 3 secondes
+  }
+
+  recommencerNiveau() {
+    joueurVivant = true;  // Réinitialisez le statut du joueur
+    player.clearTint();  // Réinitialisez la teinte du joueur
+    player.setVelocity(0, 0);  // Réinitialisez la vélocité du joueur
+    this.scene.restart();  // Redémarrez la scène
+  }
+
+
 }
 
-
-}
-
-/**tirer(player, arme) {
-  alert("joueur en position" + player.x + "," + player.y + ", direction du tir: "
-    + player.direction);
-}*/
-
-
-/**TWEEN QUI PERMET DE FAIRE BOUGER UN MONSTRE SUR UNE PLATEFORME
- * monstre11_slide = this.tweens.add({
-    targets: [monstre11], // on applique le tween sur plateforme_mobile
-    paused: true, // de base le tween est en pause
-    ease: "Linear", // concerne la vitesse de mouvement : linéaire ici
-    duration: 1500, // durée de l'animation pour monter
-    yoyo: true, // mode yoyo : une fois terminé on "rembobine" le déplacement
-    x: "-=220", // on va déplacer la plateforme de 300 pixel vers le haut par rapport a sa position
-    delay: 0, // délai avant le début du tween une fois ce dernier activé
-    hold: 100, // délai avant le yoyo : temps que la plate-forme reste en haut
-    repeatDelay: 100, // délai avant la répétition : temps que la plate-forme reste en bas
-    repeat: -1 // répétition infinity
-  });
-*/
