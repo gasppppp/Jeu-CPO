@@ -12,7 +12,6 @@ var groupe_crabes;
 var ballesRestantes = 5;
 var aUnPistolet = false;
 var joueurVivant = true;
-var nombreTotalMonstres;
 var compteurMonstres;
 var sceneFermee = false;
 
@@ -47,8 +46,7 @@ export default class niveau1 extends Phaser.Scene {
     ballesRestantes = 5;
     aUnPistolet = false;
     joueurVivant = true;
-    nombreTotalMonstres;
-    compteurMonstres;
+    compteurMonstres = 4;
     sceneFermee = false;
 
     clavier = this.input.keyboard.createCursorKeys();
@@ -159,8 +157,7 @@ export default class niveau1 extends Phaser.Scene {
     var e3 = crabe.create(2233, 256, "img_crabe");
     var e4 = crabe.create(2944, 592, "img_crabe");
 
-    nombreTotalMonstres = crabe.getChildren().length;
-    compteurMonstres = nombreTotalMonstres;
+    compteurMonstres = crabe.getChildren().length;
 
     // Ajout de la propriété pointsDeVie à chaque crabe
     crabe.getChildren().forEach((crabe) => {
@@ -213,6 +210,7 @@ export default class niveau1 extends Phaser.Scene {
       },
       onCompleteScope: this,
   });
+
     e1.anims.play("enemyMoves", true);
     e2.anims.play("enemyMoves", true);
     e3.anims.play("enemyMoves", true);
@@ -231,7 +229,6 @@ export default class niveau1 extends Phaser.Scene {
     var bravoScene = new Phaser.Scene('bravoScene');
 
     bravoScene.create = function () {
-      // Ajoutez ici le code pour afficher les règles du jeu dans la nouvelle scène
 
       // Fond bleu foncé
       var fond = this.add.rectangle(
@@ -254,7 +251,7 @@ export default class niveau1 extends Phaser.Scene {
         align: 'center'
       }
       );
-      reglesTexte.setOrigin(0.5);
+      bravoTexte.setOrigin(0.5);
     }
   }
 
@@ -288,10 +285,6 @@ export default class niveau1 extends Phaser.Scene {
     if (compteurMonstres === 0) {
       this.joueurGagne();  // Appeler la fonction joueurGagne ici
     }
-    // Si les hitbox du personnage et d'un crabe se touchent
-    if (joueurVivant) {
-      // Vérifier la collision avec les crabes
-    }
   }
 
   placerPistolet(x, y) {
@@ -312,7 +305,7 @@ export default class niveau1 extends Phaser.Scene {
     // on crée la balle a coté du joueur
     var bullet = groupe_bullets.create(player.x + (25 * coefDir), player.y - 4, 'img_bullet');
     // parametres physiques de la balle.
-    bullet.setCollideWorldBounds(true);
+    bullet.setCollideWorldBounds(false);
     bullet.body.allowGravity = false;
     bullet.setVelocity(1000 * coefDir, 0); // vitesse en x et en y
   }
@@ -321,27 +314,32 @@ export default class niveau1 extends Phaser.Scene {
   // fonction déclenchée lorsque uneBalle et unCrabe se superposent
   hit(uneBalle, unCrabe) {
     uneBalle.destroy(); // Destruction de la balle
-
+  
     // Réduction des points de vie du crabe touché
     unCrabe.pointsDeVie--;
-
+  
     // Si les points de vie atteignent zéro, détruire le crabe
-    if (unCrabe.pointsDeVie <= 0) {
-        // Marquer le crabe comme détruit
-        unCrabe.isDestroyed = true;
-        // Supprimer le tween existant du crabe
-        this.tweens.killTweensOf(unCrabe);
-
-        // Destruction du crabe
-        unCrabe.destroy();
+    if (unCrabe.pointsDeVie <= 0 && !unCrabe.isDestroyed) {
+      // Marquer le crabe comme détruit
+      unCrabe.isDestroyed = true;
+  
+      // Supprimer le tween existant du crabe
+      //this.tweens.killTweensOf(unCrabe);
+  
+      // Destruction du crabe
+      unCrabe.destroy();
+      compteurMonstres--;
+  
+      // Mettez à jour le compteur de monstres ici
+      if (compteurMonstres === 0) {
+        this.joueurGagne(); // Appeler la fonction joueurGagne ici
+      }
     }
-}
+  }
 
 
   joueurGagne() {
     this.scene.start('bravoScene');
-    // Puis changez de scène pour revenir à l'écran d'accueil où le joueur peut choisir la deuxième porte pour aller dans le niveau 2
-    this.scene.start("ecranAccueil");
   }
 
 
@@ -358,7 +356,6 @@ export default class niveau1 extends Phaser.Scene {
     player.setVelocity(0, 0);  // Réinitialisez la vélocité du joueur
     sceneFermee = false;
     joueurVivant = true;  // Réinitialisez le statut du joueur
-
     this.scene.restart();  // Redémarrez la scène
   }
 

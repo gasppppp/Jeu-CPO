@@ -1,9 +1,15 @@
 var clavier;
 var player;
 var boutonFeu;
-var arme;
+var pistolets;
 var demon;
 var enemymove;
+var ballesRestantes = 14;
+var aUnPistolet = false;
+var joueurVivant = true;
+var compteurMonstres;
+var sceneFermee = false;
+var groupe_bullets;
 
 export default class niveau3 extends Phaser.Scene {
   // constructeur de la classe
@@ -16,6 +22,8 @@ export default class niveau3 extends Phaser.Scene {
   this.load.image("tuiles_de_jeu1", "src/assets/assets_map3/tileset_ships.png");
   this.load.image("tuiles_de_jeu2", "src/assets/assets_map3/tileset_space.png");
   this.load.image("tuiles_de_jeu3", "src/assets/assets_map3/étoiles.png");
+  this.load.image("img_pistolet", "src/assets/Armes/sprite_pistolet.png");
+  this.load.image("img_bullet", "src/assets/Armes/balle_pistolet.png");
   this.load.tilemapTiledJSON("map3", "src/assets/assets_map3/map3.tmj");
   //enemy
   this.load.spritesheet("demon", "src/assets/assets_map3/sprite_demon.png", {
@@ -25,7 +33,13 @@ export default class niveau3 extends Phaser.Scene {
 }
 
   create() {
+    ballesRestantes = 14;
+    aUnPistolet = false;
+    joueurVivant = true;
+    compteurMonstres = 12;
+    sceneFermee = false;
     clavier = this.input.keyboard.createCursorKeys();
+    boutonFeu = this.input.keyboard.addKey('A');
     //boutonFeu = this.input.keyboard.addKey('A');
     this.anims.create({
       key: "anim_tourne_gauche", // key est le nom de l'animation : doit etre unique poru la scene.
@@ -97,6 +111,7 @@ export default class niveau3 extends Phaser.Scene {
     player.setCollideWorldBounds(true);
     player.setBounce(0.2);
     player.setSize(20,48);
+    player.direction = 'right';
     // définition des tuiles de plateformes qui sont solides
     // utilisation de la propriété estSolide
     calque_plateformes.setCollisionByProperty({ estSolide: true });
@@ -122,11 +137,24 @@ export default class niveau3 extends Phaser.Scene {
     var e10 = demon.create(422, 832, "demon");
     var e11 = demon.create(608, 512, "demon");
     var e12 = demon.create(64, 192, "demon");
+
+    compteurMonstres = demon.getChildren().length;
     
+    // Ajout de la propriété pointsDeVie à chaque crabe
+    demon.getChildren().forEach((demon) => {
+      demon.pointsDeVie = 4;
+    });
+    demon.getChildren().forEach((demon) => {
+      demon.setCollideWorldBounds(true);
+    });
+
     //this.physics.add.collider(demon, player);
     this.physics.add.collider(demon, calque_plateformes);
-    
-    
+    groupe_bullets = this.physics.add.group();
+    this.physics.add.overlap(demon, groupe_bullets);
+    this.physics.add.overlap(groupe_bullets, demon, this.hit, null, this);
+    this.physics.add.overlap(player, demon, this.joueurPerdu, null, this);  // Appelez la fonction joueurPerdu ici
+
     
 
     //enemy animation
@@ -163,14 +191,32 @@ export default class niveau3 extends Phaser.Scene {
     e10.anims.play("enemyMoves", true);
     e11.anims.play("enemyMoves", true);
     e12.anims.play("enemyMoves", true);
+
+
+    // Création d'un groupe pour les pistolets
+    pistolets = this.physics.add.group();
+
+    // Ajout de cinq pistolets à des positions spécifiques sur la carte
+    this.placerPistolet(600, 4608); //14 balles par pistolet
+    this.placerPistolet(820, 400);
+    this.placerPistolet(3072, 224);
+    this.placerPistolet(3072, 224);
+    this.placerPistolet(3072, 224);
+
+    this.physics.add.collider(pistolets, calque_plateformes);
   }
 
   update() {
+    if (sceneFermee) {
+      return;
+    }
     if (clavier.left.isDown) {
       player.setVelocityX(-160);
+      player.direction = 'left';
       player.anims.play("anim_tourne_gauche", true);
     } else if (clavier.right.isDown) {
       player.setVelocityX(160);
+      player.direction = 'right';
       player.anims.play("anim_tourne_droite", true);
     } else {
       player.setVelocityX(0);
@@ -179,23 +225,85 @@ export default class niveau3 extends Phaser.Scene {
     if (clavier.up.isDown && player.body.blocked.down) {
       player.setVelocityY(-330);
     }
-
-    /**if (cursors.left.isDown) {
-      // enregistrement de la direction : gauche
-      player.direction = 'left';
-      player.setVelocityX(-160);
-      player.anims.play('left', true);
+    if (Phaser.Input.Keyboard.JustDown(boutonFeu) && ballesRestantes > 0 && aUnPistolet == true) {
+      this.tirer(player);
+      ballesRestantes--;  // Décrémentez le nombre de balles restantes après le tir
     }
-    else if (cursors.right.isDown) {
-      // enregistrement de la direction : droite
-      player.direction = 'right';
-      player.setVelocityX(160);
-      player.anims.play('right', true);
-    }*/
+    // Si tous les monstres ont été tués
+    if (compteurMonstres === 0) {
+      this.joueurGagne();  // Appeler la fonction joueurGagne ici
+    }
   }
 
-  /**tirer(player, arme) {
-    alert("joueur en position" + player.x + "," + player.y + ", direction du tir: "
-      + player.direction);
-  }*/
+
+  placerPistolet(x, y) {
+    const pistolet = pistolets.create(x, y, 'img_pistolet');
+    pistolet.setCollideWorldBounds(true);
+    this.physics.add.overlap(player, pistolet, this.recupererPistolet, null, this);
+  }
+
+  recupererPistolet(player, pistolet) {
+    pistolet.destroy();  // Ramasser le pistolet (à adapter selon votre logique)
+    aUnPistolet = true;  // Activer le pistolet
+    ballesRestantes = 14;  // Réinitialiser le nombre de balles restantes
+  }
+
+  tirer(player) {
+    var coefDir;
+    if (player.direction == 'left') { coefDir = -1; } else { coefDir = 1 }
+    // on crée la balle a coté du joueur
+    var bullet = groupe_bullets.create(player.x + (25 * coefDir), player.y - 4, 'img_bullet');
+    // parametres physiques de la balle.
+    bullet.setCollideWorldBounds(false);
+    bullet.body.allowGravity = false;
+    bullet.setVelocity(1000 * coefDir, 0); // vitesse en x et en y
+  }
+
+  // fonction déclenchée lorsque uneBalle et unCrabe se superposent
+  hit(uneBalle, unDemon) {
+    uneBalle.destroy(); // Destruction de la balle
+  
+    // Réduction des points de vie du crabe touché
+    unDemon.pointsDeVie--;
+  
+    // Si les points de vie atteignent zéro, détruire le crabe
+    if (unDemon.pointsDeVie <= 0 && !unDemon.isDestroyed) {
+      // Marquer le crabe comme détruit
+      unDemon.isDestroyed = true;
+  
+      // Supprimer le tween existant du crabe
+      //this.tweens.killTweensOf(unCrabe);
+  
+      // Destruction du crabe
+      unDemon.destroy();
+      compteurMonstres--;
+  
+      // Mettez à jour le compteur de monstres ici
+      if (compteurMonstres === 0) {
+        this.joueurGagne(); // Appeler la fonction joueurGagne ici
+      }
+    }
+  }
+
+
+  joueurGagne() {
+    this.scene.start('bravoScene');
+  }
+
+
+  joueurPerdu() {
+    joueurVivant = false;
+    player.setTint(0xff0000);  // Colorer en rouge
+    player.setVelocity(0, 0);  // Arrêter le mouvement
+    sceneFermee = true;
+    this.time.delayedCall(3000, this.recommencerNiveau, [], this);  // Recommencez après 3 secondes
+  }
+
+  recommencerNiveau() {
+    player.clearTint();  // Réinitialisez la teinte du joueur
+    player.setVelocity(0, 0);  // Réinitialisez la vélocité du joueur
+    sceneFermee = false;
+    joueurVivant = true;  // Réinitialisez le statut du joueur
+    this.scene.restart();  // Redémarrez la scène
+  }
 }

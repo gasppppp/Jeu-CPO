@@ -80,7 +80,7 @@ export default class selection extends Phaser.Scene {
     player.direction = 'right';  
     player.setBounce(0.2); // on donne un petit coefficient de rebond
     player.setCollideWorldBounds(true); // le player se cognera contre les bords du monde
-    player.setSize(20,48);
+    player.setSize(20,40);
     /***************************
      *  CREATION DES ANIMATIONS *
      ****************************/
@@ -170,7 +170,6 @@ reglesBouton.on('pointerdown', function () {
 var reglesScene = new Phaser.Scene('reglesScene');
 
 reglesScene.create = function () {
-    // Ajoutez ici le code pour afficher les règles du jeu dans la nouvelle scène
 
     // Fond bleu foncé
     var fond = this.add.rectangle(
