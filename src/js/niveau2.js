@@ -179,7 +179,7 @@ export default class niveau2 extends Phaser.Scene {
 
     //enemy animation
      this.anims.create({
-      key: "enemyMoves",
+      key: "enemyMoves_lezard",
       frames: this.anims.generateFrameNumbers("lezard", {
         start: 6,
         end: 8
@@ -213,14 +213,14 @@ export default class niveau2 extends Phaser.Scene {
       },
       onCompleteScope: this,
   });
-    e1.anims.play("enemyMoves", true);
-    e2.anims.play("enemyMoves", true);
-    e3.anims.play("enemyMoves", true);
-    e4.anims.play("enemyMoves", true);
-    e5.anims.play("enemyMoves", true);
-    e6.anims.play("enemyMoves", true);
-    e7.anims.play("enemyMoves", true);
-    e8.anims.play("enemyMoves", true);
+    e1.anims.play("enemyMoves_lezard", true);
+    e2.anims.play("enemyMoves_lezard", true);
+    e3.anims.play("enemyMoves_lezard", true);
+    e4.anims.play("enemyMoves_lezard", true);
+    e5.anims.play("enemyMoves_lezard", true);
+    e6.anims.play("enemyMoves_lezard", true);
+    e7.anims.play("enemyMoves_lezard", true);
+    e8.anims.play("enemyMoves_lezard", true);
     
      // Création d'un groupe pour les pistolets
      pistolets = this.physics.add.group();

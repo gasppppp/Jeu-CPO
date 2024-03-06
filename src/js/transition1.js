@@ -13,7 +13,7 @@ export default class transition1 extends Phaser.Scene {
 
   create() {
     // on place les éléments de fond
-    this.add.image(0, 0, "transition1").setOrigin(0).setDepth(0);
+    this.add.image(400, 300, "transition1"); //.setOrigin(0).setDepth(0)
       // Ajout du bouton "Règles du jeu"
   var reglesBouton = this.add.text(
     this.cameras.main.width / 2,
@@ -63,7 +63,7 @@ export default class transition1 extends Phaser.Scene {
       var reglesTexte = this.add.text(
           this.cameras.main.width / 2,
           this.cameras.main.height / 2 - 50,
-          "Pour le niveau 2, tu as 5 armes avec 14 balles chacunes\nBonne chance !",
+          "Pour le niveau 2, tu as 4 armes contenant 8 balles chacune.\nBonne chance !",
           {
               font: "bold 24px Arial",
               fill: "#ffffff",
