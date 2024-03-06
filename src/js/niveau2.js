@@ -14,6 +14,7 @@ var aUnPistolet = false;
 var joueurVivant = true;
 var compteurMonstres=8;
 var sceneFermee = false;
+var son_balle;
 
 
 export default class niveau2 extends Phaser.Scene {
@@ -34,6 +35,7 @@ export default class niveau2 extends Phaser.Scene {
     });
     this.load.image("img_pistolet", "src/assets/Armes/sprite_pistolet.png");
     this.load.image("img_bullet", "src/assets/Armes/balle_pistolet.png");
+    this.load.audio('gun_sound', 'src/assets/musiques/son_de_tir.mp3');
   }
 
   create() {
@@ -42,9 +44,10 @@ export default class niveau2 extends Phaser.Scene {
     joueurVivant = true;
     compteurMonstres=8;
     sceneFermee = false;
-
     clavier = this.input.keyboard.createCursorKeys();
     boutonFeu = this.input.keyboard.addKey('A');
+    son_balle = this.sound.add('gun_sound');
+    son_balle.volume = 1;
     this.anims.create({
       key: "anim_tourne_gauche", // key est le nom de l'animation : doit etre unique poru la scene.
       frames: this.anims.generateFrameNumbers("img_perso", { start: 3, end: 5 }), // on prend toutes les frames de img perso numerotées de 0 à 3
@@ -263,7 +266,7 @@ export default class niveau2 extends Phaser.Scene {
     // Si tous les monstres ont été tués
     if (compteurMonstres == 0) {
       
-      this.scene.start("transition3");
+      this.scene.start("transition2");
       
     }
    
@@ -290,6 +293,7 @@ export default class niveau2 extends Phaser.Scene {
     bullet.setCollideWorldBounds(false);
     bullet.body.allowGravity = false;
     bullet.setVelocity(1000 * coefDir, 0); // vitesse en x et en y
+    son_balle.play();
   }
 
   // fonction déclenchée lorsque uneBalle et unLezard se superposent

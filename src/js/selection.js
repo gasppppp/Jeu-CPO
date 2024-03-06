@@ -46,7 +46,14 @@ export default class selection extends Phaser.Scene {
       var musique_de_fond;
       musique_de_fond = this.sound.add('musique_background');
       musique_de_fond.volume = 0.2;
-      musique_de_fond.play();  
+      // Définir l'option loop sur true
+      var config = {
+        loop: true,
+        volume: 0.2
+      };
+
+      // Jouer la musique avec la configuration spécifiée
+      musique_de_fond.play(config); 
       this.musique_de_fond = musique_de_fond;
     /*************************************
      *  CREATION DU MONDE + PLATEFORMES  *
@@ -192,7 +199,7 @@ reglesScene.create = function () {
     var reglesTexte = this.add.text(
         this.cameras.main.width / 2,
         this.cameras.main.height / 2 - 50,
-        "Règles du jeu\n\nVous êtes Dorelys, une petite fille née hier.\nVous avez perdu vos parents, dommage pour vous !\nIl vous faut donc traverser les trois niveaux pour\nespérer les revoir. Attention, des monstres sont là\npour vous bouffer donc équipez-vous d'une\narme dès que vous le pouvez !",
+        "Règles du jeu\n\nVous êtes Dorelys, une petite fille née hier.\nVous devez récupérer la grosse étoile en peluche !\nIl vous faut donc traverser les trois niveaux pour\nespérer les revoir. Attention, des monstres sont là\npour vous bouffer donc équipez-vous d'une\narme dès que vous le pouvez !",
         {
             font: "bold 24px Arial",
             fill: "#ffffff",

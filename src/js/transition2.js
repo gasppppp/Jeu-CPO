@@ -59,7 +59,7 @@ export default class transition2 extends Phaser.Scene {
         var reglesTexte = this.add.text(
             this.cameras.main.width / 2,
             this.cameras.main.height / 2 - 50,
-            "Bravo tu as réussi le niveau 2 !\nPour le niveau 3, tu as 5 armes contenant 14 balles chacune.\nAttention, les monstres sont maintenant au nombre\nde 12 et possèdent 4 vies...\nUn dernier effort et tu retrouveras tes parents !\nPS : Oui le dernier saut est faisable ;)",
+            "Bravo tu as réussi le niveau 2 !\nPour le niveau 3, tu as 5 armes contenant 14 balles chacune.\nAttention, les monstres sont maintenant au nombre\nde 12 et possèdent 4 vies...\nUn dernier effort et tu trouveras l'étoile !\nPS : Oui le dernier saut est faisable ;)",
             { 
                 font: "bold 24px Arial",
                 fill: "#ffffff",

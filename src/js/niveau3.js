@@ -29,11 +29,11 @@ export default class niveau3 extends Phaser.Scene {
   this.load.image("img_bullet", "src/assets/Armes/balle_pistolet.png");
   this.load.tilemapTiledJSON("map3", "src/assets/assets_map3/map3.tmj");
   this.load.image("img_porte_finale", "src/assets/assets_bienvenue/door2.png");
-  //enemy
   this.load.spritesheet("demon", "src/assets/assets_map3/sprite_demon.png", {
     frameWidth: 48,
     frameHeight: 48
   });
+  this.load.audio('gun_sound', 'src/assets/musiques/son_de_tir.mp3');
 }
 
   create() {
@@ -44,11 +44,8 @@ export default class niveau3 extends Phaser.Scene {
     sceneFermee = false;
     clavier = this.input.keyboard.createCursorKeys();
     boutonFeu = this.input.keyboard.addKey('A');
-    //boutonFeu = this.input.keyboard.addKey('A');
-
-    
-    
-
+    son_balle = this.sound.add('gun_sound');
+    son_balle.volume = 1;
     this.anims.create({
       key: "anim_tourne_gauche", // key est le nom de l'animation : doit etre unique poru la scene.
       frames: this.anims.generateFrameNumbers("img_perso", { start: 3, end: 5 }), // on prend toutes les frames de img perso numerotées de 0 à 3
@@ -283,6 +280,7 @@ export default class niveau3 extends Phaser.Scene {
     bullet.setCollideWorldBounds(false);
     bullet.body.allowGravity = false;
     bullet.setVelocity(1000 * coefDir, 0); // vitesse en x et en y
+    son_balle.play();
   }
 
   // fonction déclenchée lorsque uneBalle et unDemon se superposent
