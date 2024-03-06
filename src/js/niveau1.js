@@ -270,7 +270,10 @@ export default class niveau1 extends Phaser.Scene {
       this.tirer(player);
       ballesRestantes--;  // Décrémentez le nombre de balles restantes après le tir
     }
-
+    // Si tous les monstres ont été tués
+    if (compteurMonstres === 0) {
+      this.joueurGagne();  // Appeler la fonction joueurGagne ici
+    }
     // Si les hitbox du personnage et d'un crabe se touchent
     if (joueurVivant) {
       // Vérifier la collision avec les crabes
