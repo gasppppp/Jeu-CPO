@@ -8,6 +8,7 @@ var player; // désigne le sprite du joueur
 var clavier; // pour la gestion du clavier
 var groupe_plateformes;
 var bienvenueTexte;
+var musique_de_fond;
 
 // définition de la classe "selection"
 export default class selection extends Phaser.Scene {
@@ -46,6 +47,7 @@ export default class selection extends Phaser.Scene {
       musique_de_fond = this.sound.add('musique_background');
       musique_de_fond.volume = 0.2;
       musique_de_fond.play();  
+      this.musique_de_fond = musique_de_fond;
     /*************************************
      *  CREATION DU MONDE + PLATEFORMES  *
      *************************************/
@@ -264,10 +266,13 @@ this.scene.add('reglesScene', reglesScene);
     }
     if (Phaser.Input.Keyboard.JustDown(clavier.space) == true) {
       if (this.physics.overlap(player, this.porte1))
+        //this.musique_de_fond.stop();
         this.scene.switch("niveau1");
       if (this.physics.overlap(player, this.porte2))
+        //this.musique_de_fond.stop(); 
         this.scene.switch("niveau2");
       if (this.physics.overlap(player, this.porte3))
+        //this.musique_de_fond.stop();
         this.scene.switch("niveau3");
     }
   }
