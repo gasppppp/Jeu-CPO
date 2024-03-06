@@ -1,3 +1,5 @@
+import Phaser from "phaser";
+
 var enemymove
 var clavier;
 var player;
@@ -14,6 +16,8 @@ var aUnPistolet = false;
 var joueurVivant = true;
 var compteurMonstres;
 var sceneFermee = false;
+
+
 
 export default class niveau1 extends Phaser.Scene {
 
@@ -46,7 +50,8 @@ export default class niveau1 extends Phaser.Scene {
     ballesRestantes = 5;
     aUnPistolet = false;
     joueurVivant = true;
-    compteurMonstres = 4;
+    nombreTotalMonstres;
+    compteurMonstres=4;
     sceneFermee = false;
 
     clavier = this.input.keyboard.createCursorKeys();
@@ -282,9 +287,12 @@ export default class niveau1 extends Phaser.Scene {
       ballesRestantes--;  // Décrémentez le nombre de balles restantes après le tir
     }
     // Si tous les monstres ont été tués
-    if (compteurMonstres === 0) {
-      this.joueurGagne();  // Appeler la fonction joueurGagne ici
+    if (compteurMonstres == 0) {
+      console.log("compteur 0");
+      this.scene.start("transition1");
     }
+    
+    
   }
 
   placerPistolet(x, y) {
@@ -319,23 +327,19 @@ export default class niveau1 extends Phaser.Scene {
     unCrabe.pointsDeVie--;
   
     // Si les points de vie atteignent zéro, détruire le crabe
-    if (unCrabe.pointsDeVie <= 0 && !unCrabe.isDestroyed) {
-      // Marquer le crabe comme détruit
-      unCrabe.isDestroyed = true;
-  
-      // Supprimer le tween existant du crabe
-      //this.tweens.killTweensOf(unCrabe);
-  
-      // Destruction du crabe
-      unCrabe.destroy();
-      compteurMonstres--;
-  
-      // Mettez à jour le compteur de monstres ici
-      if (compteurMonstres === 0) {
-        this.joueurGagne(); // Appeler la fonction joueurGagne ici
-      }
+    if (unCrabe.pointsDeVie <= 0) {
+        // Marquer le crabe comme détruit
+        unCrabe.isDestroyed = true;
+        // Supprimer le tween existant du crabe
+        this.tweens.killTweensOf(unCrabe);
+
+        // Destruction du crabe
+        unCrabe.destroy();
+        compteurMonstres--;
+        
     }
-  }
+}
+
 
 
   joueurGagne() {

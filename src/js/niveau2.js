@@ -1,3 +1,4 @@
+
 var clavier;
 var player;
 var boutonFeu;
@@ -11,8 +12,8 @@ var groupe_lezards;
 var ballesRestantes = 8;
 var aUnPistolet = false;
 var joueurVivant = true;
-var nombreTotalMonstres;
-var compteurMonstres;
+var compteurMonstres=8;
+var sceneFermee = false;
 
 
 export default class niveau2 extends Phaser.Scene {
@@ -36,6 +37,12 @@ export default class niveau2 extends Phaser.Scene {
   }
 
   create() {
+    ballesRestantes = 8;
+    aUnPistolet = false;
+    joueurVivant = true;
+    compteurMonstres=8;
+    sceneFermee = false;
+
     clavier = this.input.keyboard.createCursorKeys();
     boutonFeu = this.input.keyboard.addKey('A');
     this.anims.create({
@@ -109,10 +116,7 @@ export default class niveau2 extends Phaser.Scene {
     );
     player = this.physics.add.sprite(50, 350, 'img_perso');
     player.setCollideWorldBounds(true);
-   
-    //on acvite l'écouteur sur les collisions avec le monde
     player.body.onWorldBounds = true; 
-    
     // on met en place l'écouteur sur les bornes du monde
     player.body.world.on(
     "worldbounds", // evenement surveillé
@@ -155,8 +159,8 @@ export default class niveau2 extends Phaser.Scene {
     var e8 = lezard.create(2368, 500, "lezard");
    
    
-    nombreTotalMonstres = lezard.getChildren().length;
-    compteurMonstres = nombreTotalMonstres;
+    compteurMonstres  = lezard.getChildren().length;
+   
 
     // Ajout de la propriété pointsDeVie à chaque lezard
     lezard.getChildren().forEach((lezard) => {
@@ -169,9 +173,9 @@ export default class niveau2 extends Phaser.Scene {
     //this.physics.add.collider(lezard, player);
     this.physics.add.collider(lezard, calque_plateformes);
     groupe_bullets = this.physics.add.group();
-    this.physics.add.collider(lezard, groupe_bullets);
+    this.physics.add.overlap(lezard, groupe_bullets);
     this.physics.add.overlap(groupe_bullets, lezard, this.hit, null, this);
-    
+    this.physics.add.overlap(player, lezard, this.joueurPerdu, null, this);  // Appelez la fonction joueurPerdu ici
 
     //enemy animation
      this.anims.create({
@@ -211,42 +215,18 @@ export default class niveau2 extends Phaser.Scene {
      this.placerPistolet(295, 200); //8 balles par pistolet
      this.placerPistolet(1344, 96);
      this.placerPistolet(2016, 576);
-     this.placerPistolet(3512, 192);
+     this.placerPistolet(3012, 192);
  
      this.physics.add.collider(pistolets, calque_plateformes);
  
-     var bravoScene = new Phaser.Scene('bravoScene');
- 
-     bravoScene.create = function () {
-     // Ajoutez ici le code pour afficher les règles du jeu dans la nouvelle scène
- 
-     // Fond bleu foncé
-     var fond = this.add.rectangle(
-         this.cameras.main.width / 2,
-         this.cameras.main.height / 2,
-         this.cameras.main.width,
-         this.cameras.main.height,
-         0x000033
-     );
-     fond.setOrigin(0.5);
- 
-     // Texte du bravo
-     var bravoTexte = this.add.text(
-         this.cameras.main.width / 2,
-         this.cameras.main.height / 2 - 50,
-        "Bravo ! Vous avez terminé le niveau 1.\nRendez-vous au niveau 2 !",{
-             font: "bold 24px Arial",
-             fill: "#ffffff",
-             stroke: "null",
-             align: 'center'
-         }
-     );
-     reglesTexte.setOrigin(0.5);
-   }
+     
     
   }
 
   update() {
+    if (sceneFermee) {
+      return;
+    }
     if (clavier.left.isDown) {
       player.direction = 'left';
       player.setVelocityX(-160);
@@ -266,13 +246,12 @@ export default class niveau2 extends Phaser.Scene {
       this.tirer(player);
       ballesRestantes--;  // Décrémentez le nombre de balles restantes après le tir
     }
-    if (joueurVivant) {
-     
-      // Si les hitbox du personnage et d'un lezard se touchent
-      this.physics.world.overlap(player, lezard, this.joueurPerdu, null, this);
-
-      // ...
+    // Si tous les monstres ont été tués
+    if (compteurMonstres === 0) {
+      this.scene.start('bravoScene');
+      
     }
+   
   }
 
   placerPistolet(x, y) {
@@ -293,12 +272,12 @@ export default class niveau2 extends Phaser.Scene {
     // on crée la balle a coté du joueur
     var bullet = groupe_bullets.create(player.x + (25 * coefDir), player.y - 4, 'img_bullet');
     // parametres physiques de la balle.
-    bullet.setCollideWorldBounds(true);
+    bullet.setCollideWorldBounds(false);
     bullet.body.allowGravity = false;
     bullet.setVelocity(1000 * coefDir, 0); // vitesse en x et en y
   }
 
-   // fonction déclenchée lorsque uneBalle et unLezard se superposent
+  // fonction déclenchée lorsque uneBalle et unLezard se superposent
   hit(uneBalle, unLezard) {
     uneBalle.destroy(); // destruction de la balle
 
@@ -310,18 +289,14 @@ export default class niveau2 extends Phaser.Scene {
       // Arrêter le tween du lezard avant de le détruire
       enemymove.remove(TweenData => TweenData.targets[0] === unLezard);
       unLezard.destroy();
-   } else {
-      // Si le lezard est touché mais pas encore détruit, arrêtez sa vélocité
-      if (unLezard.active) {
-          unLezard.setVelocity(0, 0);
-      }
-   }
+      compteurMonstres--;
+   } 
   }
 
   joueurGagne() {
     this.scene.start('bravoScene');
-    // Puis changez de scène pour revenir à l'écran d'accueil où le joueur peut choisir la deuxième porte pour aller dans le niveau 2
-    this.scene.start("ecranAccueil");
+    this.scene.start('niveau2')
+    
   }
 
 
@@ -329,15 +304,15 @@ export default class niveau2 extends Phaser.Scene {
     joueurVivant = false;
     player.setTint(0xff0000);  // Colorer en rouge
     player.setVelocity(0, 0);  // Arrêter le mouvement
+    sceneFermee = true;
     this.time.delayedCall(3000, this.recommencerNiveau, [], this);  // Recommencez après 3 secondes
   }
 
   recommencerNiveau() {
-    joueurVivant = true;  // Réinitialisez le statut du joueur
     player.clearTint();  // Réinitialisez la teinte du joueur
     player.setVelocity(0, 0);  // Réinitialisez la vélocité du joueur
-    player.aUnPistolet=false;
-    player.ballesRestantes==0;
+    sceneFermee = false;
+    joueurVivant = true;  // Réinitialisez le statut du joueur
     this.scene.restart();  // Redémarrez la scène
   }
 
