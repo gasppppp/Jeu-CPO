@@ -262,7 +262,7 @@ export default class niveau2 extends Phaser.Scene {
     }
     // Si tous les monstres ont été tués
     if (compteurMonstres === 0) {
-      this.scene.start('bravoScene');
+      this.scene.start("transition2");
       
     }
    
@@ -312,11 +312,7 @@ export default class niveau2 extends Phaser.Scene {
     }
   }
 
-  joueurGagne() {
-    this.scene.start('bravoScene');
-    this.scene.start('niveau2')
-    
-  }
+  
 
 
   joueurPerdu() {

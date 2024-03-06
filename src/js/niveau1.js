@@ -287,7 +287,7 @@ export default class niveau1 extends Phaser.Scene {
     }
     // Si tous les monstres ont été tués
     if (compteurMonstres == 0) {
-      console.log("compteur 0");
+      
       this.scene.start("transition1");
     }
     
