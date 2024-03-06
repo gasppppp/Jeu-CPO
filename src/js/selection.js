@@ -80,7 +80,7 @@ export default class selection extends Phaser.Scene {
     player.direction = 'right';  
     player.setBounce(0.2); // on donne un petit coefficient de rebond
     player.setCollideWorldBounds(true); // le player se cognera contre les bords du monde
-    player.setSize(20,40);
+    player.setSize(20,48);
     /***************************
      *  CREATION DES ANIMATIONS *
      ****************************/

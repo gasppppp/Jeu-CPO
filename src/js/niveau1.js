@@ -137,7 +137,7 @@ export default class niveau1 extends Phaser.Scene {
       this
     );
     player.direction = 'right';
-    player.setSize(20, 40);
+    player.setSize(20, 48);
     // définition des tuiles de plateformes qui sont solides
     // utilisation de la propriété estSolide
     calque_plateformes.setCollisionByProperty({ estSolide: true });
