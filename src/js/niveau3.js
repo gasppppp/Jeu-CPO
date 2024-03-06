@@ -1,3 +1,5 @@
+
+
 var clavier;
 var player;
 var boutonFeu;
@@ -140,7 +142,7 @@ export default class niveau3 extends Phaser.Scene {
 
     compteurMonstres = demon.getChildren().length;
     
-    // Ajout de la propriété pointsDeVie à chaque crabe
+    // Ajout de la propriété pointsDeVie à chaque demon
     demon.getChildren().forEach((demon) => {
       demon.pointsDeVie = 4;
     });
@@ -169,7 +171,7 @@ export default class niveau3 extends Phaser.Scene {
     });
 
     enemymove = this.tweens.add({
-      targets: demon.getChildren(),
+      targets: demon.getChildren().filter(c => !c.isDestroyed),
       ease: "Linear",
       duration: 2000,
       yoyo: true,
@@ -177,8 +179,24 @@ export default class niveau3 extends Phaser.Scene {
       delay: 0,
       hold: 0,
       repeatDelay: 0,
-      repeat: -1
+      repeat: -1,
+      onComplete: function (tween, targets) {
+        // Réinitialiser le tween pour chaque crabe à la fin du tween
+        targets.forEach(demon => {
+            this.tweens.add({
+                targets: demon,
+                ease: "Linear",
+                duration: 3000,
+                yoyo: true,
+                x: `+=100`,
+                repeat: -1,
+            });
+        });
+    },
+    onCompleteScope: this,
     });
+
+
     e1.anims.play("enemyMoves", true);
     e2.anims.play("enemyMoves", true);
     e3.anims.play("enemyMoves", true);
@@ -197,11 +215,11 @@ export default class niveau3 extends Phaser.Scene {
     pistolets = this.physics.add.group();
 
     // Ajout de cinq pistolets à des positions spécifiques sur la carte
-    this.placerPistolet(600, 4608); //14 balles par pistolet
-    this.placerPistolet(820, 400);
-    this.placerPistolet(3072, 224);
-    this.placerPistolet(3072, 224);
-    this.placerPistolet(3072, 224);
+    this.placerPistolet(672, 4416); //14 balles par pistolet
+    this.placerPistolet(224, 3232);
+    this.placerPistolet(416, 2464);
+    this.placerPistolet(32, 1536);
+    this.placerPistolet(224, 896);
 
     this.physics.add.collider(pistolets, calque_plateformes);
   }
@@ -259,29 +277,21 @@ export default class niveau3 extends Phaser.Scene {
     bullet.setVelocity(1000 * coefDir, 0); // vitesse en x et en y
   }
 
-  // fonction déclenchée lorsque uneBalle et unCrabe se superposent
+  // fonction déclenchée lorsque uneBalle et unDemon se superposent
   hit(uneBalle, unDemon) {
     uneBalle.destroy(); // Destruction de la balle
   
-    // Réduction des points de vie du crabe touché
+    // Réduction des points de vie du demon touché
     unDemon.pointsDeVie--;
   
-    // Si les points de vie atteignent zéro, détruire le crabe
-    if (unDemon.pointsDeVie <= 0 && !unDemon.isDestroyed) {
-      // Marquer le crabe comme détruit
+    // Si les points de vie atteignent zéro, détruire le demon
+    if (unDemon.pointsDeVie <= 0) {
+      // Marquer le demon comme détruit
       unDemon.isDestroyed = true;
   
-      // Supprimer le tween existant du crabe
-      //this.tweens.killTweensOf(unCrabe);
-  
-      // Destruction du crabe
+      // Destruction du demon
       unDemon.destroy();
       compteurMonstres--;
-  
-      // Mettez à jour le compteur de monstres ici
-      if (compteurMonstres === 0) {
-        this.joueurGagne(); // Appeler la fonction joueurGagne ici
-      }
     }
   }
 

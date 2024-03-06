@@ -1,5 +1,3 @@
-//import Phaser from "phaser";
-
 var enemymove
 var clavier;
 var player;
@@ -17,6 +15,7 @@ var joueurVivant = true;
 var compteurMonstres;
 var sceneFermee = false;
 var nombreTotalMonstres;
+
 
 
 export default class niveau1 extends Phaser.Scene {
@@ -330,8 +329,6 @@ export default class niveau1 extends Phaser.Scene {
     if (unCrabe.pointsDeVie <= 0) {
         // Marquer le crabe comme détruit
         unCrabe.isDestroyed = true;
-        
-        
 
         // Destruction du crabe
         unCrabe.destroy();
