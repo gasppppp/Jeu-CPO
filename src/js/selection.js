@@ -89,8 +89,8 @@ export default class selection extends Phaser.Scene {
     /****************************
      *  Ajout des portes   *
      ****************************/
-    this.porte1 = this.physics.add.staticSprite(600, 414, "img_portail");
-
+    this.porte1 = this.physics.add.sprite(600, 405, "img_portail");
+    
 
     player = this.physics.add.sprite(100, 450, "img_perso");
     player.direction = 'right';
@@ -138,7 +138,9 @@ export default class selection extends Phaser.Scene {
 
     //  Collide the player and the groupe_etoiles with the groupe_plateformes
     this.physics.add.collider(player, groupe_plateformes);
-
+   
+    this.physics.add.collider(this.porte1, groupe_plateformes);
+    this.porte1.setSize(42,64);
     // Ajout du texte de bienvenue personnalisé
     bienvenueTexte = this.add.text(
       this.cameras.main.width / 2,
@@ -186,6 +188,8 @@ export default class selection extends Phaser.Scene {
     // Créez une nouvelle scène pour les règles du jeu
     var reglesScene = new Phaser.Scene('reglesScene');
 
+
+    
     // creation de l'animation pour faire tourner le portail
     this.anims.create({
       key: "anim_portail",
@@ -271,6 +275,8 @@ export default class selection extends Phaser.Scene {
 
 
   update() {
+
+    this.porte1.anims.play("anim_portail",true);
 
     if (clavier.left.isDown) {
       player.setVelocityX(-160);
