@@ -78,15 +78,15 @@ export default class selection extends Phaser.Scene {
 
     //  on ajoute 3 platesformes flottantes
     groupe_plateformes.create(600, 450, "img_plateforme");
-    groupe_plateformes.create(50, 300, "img_plateforme");
-    groupe_plateformes.create(750, 270, "img_plateforme");
+    //groupe_plateformes.create(50, 300, "img_plateforme");
+    //groupe_plateformes.create(750, 270, "img_plateforme");
 
     /****************************
      *  Ajout des portes   *
      ****************************/
     this.porte1 = this.physics.add.staticSprite(600, 414, "img_porte1");
-    this.porte2 = this.physics.add.staticSprite(50, 264, "img_porte2");
-    this.porte3 = this.physics.add.staticSprite(775, 234, "img_porte3");
+    //this.porte2 = this.physics.add.staticSprite(50, 264, "img_porte2");
+    //this.porte3 = this.physics.add.staticSprite(775, 234, "img_porte3");
 
 
     player = this.physics.add.sprite(100, 450, "img_perso");
@@ -275,12 +275,12 @@ this.scene.add('reglesScene', reglesScene);
       if (this.physics.overlap(player, this.porte1))
         //this.musique_de_fond.stop();
         this.scene.switch("niveau1");
-      if (this.physics.overlap(player, this.porte2))
+      /**if (this.physics.overlap(player, this.porte2))
         //this.musique_de_fond.stop(); 
         this.scene.switch("niveau2");
       if (this.physics.overlap(player, this.porte3))
         //this.musique_de_fond.stop();
-        this.scene.switch("niveau3");
+        this.scene.switch("niveau3");*/
     }
   }
 }
