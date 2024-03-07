@@ -10,6 +10,7 @@ var groupe_plateformes;
 var bienvenueTexte;
 var musique_de_fond;
 
+
 // définition de la classe "selection"
 export default class selection extends Phaser.Scene {
   constructor() {
@@ -149,6 +150,9 @@ export default class selection extends Phaser.Scene {
       }
   );
   bienvenueTexte.setOrigin(0.5, 0);
+
+  
+
 
   // Ajout du bouton "Règles du jeu"
 var reglesBouton = this.add.text(

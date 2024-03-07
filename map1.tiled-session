@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "src/assets/assets_map2/map2.tmx",
+    "activeFile": "src/assets/assets_map3/map3.tmx",
     "expandedProjectPaths": [
     ],
     "fileStates": {
@@ -100,8 +100,8 @@
             "scale": 0.75,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 400.6666666666667,
-                "y": 2400
+                "x": 383.33333333333326,
+                "y": 10.666666666666629
             }
         },
         "src/assets/assets_map3/map3.tmx#map3": {
@@ -153,8 +153,8 @@
     "project": "map1.tiled-project",
     "recentFiles": [
         "src/assets/assets_map1/map1.tmx",
-        "src/assets/assets_map3/map3.tmx",
         "src/assets/assets_map2/map2.tmx",
+        "src/assets/assets_map3/map3.tmx",
         "src/assets/assets_map1/map1.tmj",
         "src/assets/assets_map2/map2.tmj",
         "map1.tmx",
