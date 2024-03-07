@@ -217,7 +217,7 @@ export default class selection extends Phaser.Scene {
       var reglesTexte = this.add.text(
         this.cameras.main.width / 2,
         this.cameras.main.height / 2 - 50,
-        "Règles du jeu\n\nVous êtes Dorelys, une petite fille née hier.\nVous devez récupérer la grosse étoile en peluche !\nIl vous faut donc traverser les trois niveaux pour\nla trouver. Attention, des monstres sont là\npour vous bouffer donc équipez-vous d'une\narme dès que vous le pouvez !\nC'est parti, rendez-vous au portail et appuyez sur espace !",
+        "Règles du jeu\n\nVous êtes Dorelys, une petite fille née hier.\nVous devez récupérer la grosse étoile en peluche !\nIl vous faut donc traverser les trois niveaux pour\nla trouver. Attention, des monstres sont là\npour vous dévorer donc équipez-vous d'une\narme dès que vous le pouvez !\nC'est parti, rendez-vous au portail et appuyez sur espace !",
         {
           font: "bold 24px Arial",
           fill: "#ffffff",
