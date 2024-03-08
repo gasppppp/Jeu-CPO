@@ -54,7 +54,7 @@ export default class selection extends Phaser.Scene {
     // Définir l'option loop sur true
     var config = {
       loop: true,
-      volume: 0.2
+      volume: 0.05
     };
 
     // Jouer la musique avec la configuration spécifiée
